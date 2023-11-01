@@ -27,8 +27,6 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 import openfl.Lib;
 
-using StringTools;
-
 class GraphicsSettingsSubState extends BaseOptionsMenu
 {
 	public function new()

@@ -1,0 +1,23 @@
+{
+	"songs": [
+		["Deception", "senpai", [148, 22, 83]],
+		["Test", "senpai", [148, 22, 83]],
+		["Test", "senpai", [148, 22, 83]]
+	],
+
+	"weekCharacters": [
+		"senpai",
+		"bf",
+		"gf"
+	],
+	"weekBackground": "limo",
+
+	"storyName": "trace('senpai.kill();')",
+	"weekBefore": "week3",
+	"weekName": "Week 4",
+	"startUnlocked": true,
+        "difficulties": "hard",
+
+	"hideStoryMode": false,
+	"hideFreeplay": false
+}

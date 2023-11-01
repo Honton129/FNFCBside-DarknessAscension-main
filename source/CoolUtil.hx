@@ -14,8 +14,6 @@ import sys.FileSystem;
 import openfl.utils.Assets;
 #end
 
-using StringTools;
-
 class CoolUtil
 {
 	public static var defaultDifficulties:Array<String> = [

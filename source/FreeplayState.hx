@@ -3,7 +3,6 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
-import editors.ChartingState;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -23,8 +22,6 @@ import SongMetadata;
 #if MODS_ALLOWED
 import sys.FileSystem;
 #end
-
-using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
@@ -335,7 +332,7 @@ class FreeplayState extends MusicBeatState
 			trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
 			
 			if (FlxG.keys.pressed.SHIFT){
-				LoadingState.loadAndSwitchState(new ChartingState());
+				LoadingState.loadAndSwitchState(new editors.ChartingState());
 			}else{
 				LoadingState.loadAndSwitchState(new PlayState());
 			}

@@ -33,8 +33,6 @@ import sys.FileSystem;
 #end
 import WeekData;
 
-using StringTools;
-
 class WeekEditorState extends MusicBeatState
 {
 	var txtWeekTitle:FlxText;

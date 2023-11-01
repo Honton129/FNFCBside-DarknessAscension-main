@@ -25,8 +25,6 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
 
-using StringTools;
-
 class NotesSubState extends MusicBeatSubstate
 {
 	private static var curSelected:Int = 0;

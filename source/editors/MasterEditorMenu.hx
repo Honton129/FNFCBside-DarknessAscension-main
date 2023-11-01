@@ -16,8 +16,6 @@ import flixel.system.FlxSound;
 import sys.FileSystem;
 #end
 
-using StringTools;
-
 class MasterEditorMenu extends MusicBeatState
 {
 	var options:Array<String> = [
@@ -125,7 +123,7 @@ class MasterEditorMenu extends MusicBeatState
 				case 'Dialogue Editor':
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
 				case 'Chart Editor'://felt it would be cool maybe
-					LoadingState.loadAndSwitchState(new ChartingState(), false);
+					LoadingState.loadAndSwitchState(new editors.ChartingState(), false);
 			}
 			FlxG.sound.music.volume = 0;
 			#if PRELOAD_ALL

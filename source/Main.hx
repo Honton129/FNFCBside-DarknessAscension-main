@@ -1,10 +1,6 @@
 package;
 
-import flixel.graphics.FlxGraphic;
-import flixel.FlxG;
 import flixel.FlxGame;
-import flixel.FlxState;
-import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
@@ -23,10 +19,7 @@ import haxe.CallStack;
 import haxe.io.Path;
 import sys.FileSystem;
 import sys.io.File;
-import sys.io.Process;
 #end
-
-using StringTools;
 
 class Main extends Sprite
 {
@@ -41,8 +34,6 @@ class Main extends Sprite
 	};
 
 	public static var fpsVar:FPS;
-
-	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
 	{
@@ -102,6 +93,8 @@ class Main extends Sprite
 
 		#if html5
 		FlxG.autoPause = false;
+		FlxG.mouse.visible = false;
+		#elseif desktop
 		FlxG.mouse.visible = false;
 		#end
 		

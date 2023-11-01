@@ -21,8 +21,6 @@ import sys.io.File;
 import js.html.FileSystem;
 import js.html.File;
 #end
-
-using StringTools;
 class AtlasFrameMaker extends FlxFramesCollection
 {
 	//public static var widthoffset:Int = 0;

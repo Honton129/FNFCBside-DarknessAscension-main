@@ -1,5 +1,0 @@
-its actually set cam zoom but idk.. kinda easy to port after all B) 
-
-value 1 = the zoom value
-
-doesnt have timer ok?

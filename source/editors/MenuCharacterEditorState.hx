@@ -30,8 +30,6 @@ import haxe.Json;
 import sys.io.File;
 #end
 
-using StringTools;
-
 class MenuCharacterEditorState extends MusicBeatState
 {
 	var grpWeekCharacters:FlxTypedGroup<MenuCharacter>;

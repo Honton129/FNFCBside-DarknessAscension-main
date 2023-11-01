@@ -31,8 +31,6 @@ import DialogueBoxPsych;
 import Discord;
 #end
 
-using StringTools;
-
 class EditorLua {
 	public static var Function_Stop = 1;
 	public static var Function_Continue = 0;

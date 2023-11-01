@@ -1,3 +1,0 @@
-VS Impostor's Camera Twist Event
-Value 1: Intensity
-Value 2: Intensity 2
