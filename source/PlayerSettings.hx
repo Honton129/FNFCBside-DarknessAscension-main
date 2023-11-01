@@ -1,6 +1,7 @@
 package;
 
 import Controls;
+import flixel.util.FlxSignal;
 import flixel.FlxG;
 
 class PlayerSettings
