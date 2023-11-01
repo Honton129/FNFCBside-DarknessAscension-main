@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="sus.png">
+	<!-- Created with Adobe Animate version 19.2.1.408 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="webadas instancia 10000" x="0" y="0" width="374" height="318" frameX="0" frameY="-47" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10001" x="0" y="0" width="374" height="318" frameX="0" frameY="-47" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10002" x="374" y="0" width="350" height="328" frameX="-12" frameY="-37" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10003" x="374" y="0" width="350" height="328" frameX="-12" frameY="-37" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10004" x="0" y="328" width="334" height="338" frameX="-20" frameY="-27" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10005" x="0" y="328" width="334" height="338" frameX="-20" frameY="-27" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10006" x="334" y="328" width="324" height="352" frameX="-25" frameY="-13" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10007" x="334" y="328" width="324" height="352" frameX="-25" frameY="-13" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10008" x="658" y="328" width="312" height="365" frameX="-31" frameY="0" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10009" x="658" y="328" width="312" height="365" frameX="-31" frameY="0" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10010" x="658" y="328" width="312" height="365" frameX="-31" frameY="0" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10011" x="658" y="328" width="312" height="365" frameX="-31" frameY="0" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10012" x="658" y="328" width="312" height="365" frameX="-31" frameY="0" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10013" x="658" y="328" width="312" height="365" frameX="-31" frameY="0" frameWidth="374" frameHeight="365"/>
+	<SubTexture name="webadas instancia 10014" x="658" y="328" width="312" height="365" frameX="-31" frameY="0" frameWidth="374" frameHeight="365"/>
+</TextureAtlas>
