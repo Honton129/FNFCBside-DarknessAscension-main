@@ -94,7 +94,7 @@
 				]
 			]
 		],
-		"gfVersion": "gfd3",
+		"gfVersion": "gf-d3",
 		"notes": [
 			{
 				"sectionNotes": [],
@@ -5345,7 +5345,7 @@
 			}
 		],
 		"player2": "spooky3",
-		"player3": "gfd3",
+		"player3": "gf-d3",
 		"song": "Chiller",
 		"stage": "spokis3",
 		"validScore": true,
