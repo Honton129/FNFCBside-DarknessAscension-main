@@ -71,14 +71,14 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		bgStatic = new FlxSprite(0,0);
+		bgStatic = new FlxSprite();
 		bgStatic.frames = Paths.getSparrowAtlas('fondo');
 		bgStatic.animation.addByPrefix('idle', 'bg', 24, true);
 		bgStatic.animation.play('idle');
 		bgStatic.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bgStatic);
 
-		overlay = new FlxSprite(0,0).loadGraphic(Paths.image('consolador'));
+		overlay = new FlxSprite().loadGraphic(Paths.image('consolador'));
 		overlay.antialiasing = ClientPrefs.globalAntialiasing;
 		add(overlay);
 

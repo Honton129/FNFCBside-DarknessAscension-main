@@ -69,11 +69,8 @@ class ExtraSongsState extends MusicBeatState
 		bg = new FlxSprite().loadGraphic(Paths.image('freeplayBG2'));
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
-		bg.screenCenter();
 
-		soulBF = new FlxSprite(-5000, 0).loadGraphic(Paths.image('freeplaySOUL2'));
-		soulBF.setGraphicSize(Std.int(soulBF.width * 1));
-		soulBF.updateHitbox();
+		soulBF = new FlxSprite(5000, 0).loadGraphic(Paths.image('freeplaySOUL2'));
 		soulBF.antialiasing = ClientPrefs.globalAntialiasing;
 		add(soulBF);
 
@@ -106,10 +103,6 @@ class ExtraSongsState extends MusicBeatState
 			// using a FlxGroup is too much fuss!
 			iconArray.push(icon);
 			add(icon);
-
-			// songText.x += 40;
-			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
-			// songText.screenCenter(X);
 		}
 		WeekData.setDirectoryFromWeek();
 
@@ -154,6 +147,17 @@ class ExtraSongsState extends MusicBeatState
 		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, RIGHT);
 		text.scrollFactor.set();
 		add(text);
+
+		var staticTV:FlxSprite = new FlxSprite();
+		staticTV.antialiasing = ClientPrefs.globalAntialiasing;
+		staticTV.frames = Paths.getSparrowAtlas("static");
+		staticTV.animation.addByPrefix('idle', 'static', 24, true);
+		staticTV.animation.play('idle');
+		staticTV.scrollFactor.set();
+		staticTV.screenCenter();
+		staticTV.alpha = 0.65;
+        add(staticTV);
+
 		super.create();
 	}
 

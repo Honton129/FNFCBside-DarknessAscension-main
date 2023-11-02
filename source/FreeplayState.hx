@@ -3,25 +3,18 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
-import flash.text.TextField;
+
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import lime.utils.Assets;
 import flixel.system.FlxSound;
-import openfl.utils.Assets as OpenFlAssets;
 import WeekData;
 import SongMetadata;
-#if MODS_ALLOWED
-import sys.FileSystem;
-#end
 
 class FreeplayState extends MusicBeatState
 {
@@ -48,7 +41,7 @@ class FreeplayState extends MusicBeatState
 	var intendedRating:Float = 0;
 
 	var bg:FlxSprite;
-	var soulBF:FlxSprite;
+	var bfMenu:FlxSprite;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -99,15 +92,12 @@ class FreeplayState extends MusicBeatState
 		bg = new FlxSprite().loadGraphic(Paths.image('freeplayBG'));
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
-		bg.screenCenter();
 		
-		soulBF = new FlxSprite(-5000, 0).loadGraphic(Paths.image('freeplaySOUL'));
-		soulBF.setGraphicSize(Std.int(soulBF.width * 1));
-		soulBF.updateHitbox();
-		soulBF.antialiasing = ClientPrefs.globalAntialiasing;
-		add(soulBF);
+		bfMenu = new FlxSprite(-5000, 0).loadGraphic(Paths.image('freeplaySOUL'));
+		bfMenu.antialiasing = ClientPrefs.globalAntialiasing;
+		add(bfMenu);
 
-		FlxTween.tween(soulBF, {x: 0}, 1, {
+		FlxTween.tween(bfMenu, {x: 0}, 1, {
 			ease: FlxEase.quadOut,
 			startDelay: 0,
 		});
@@ -189,6 +179,17 @@ class FreeplayState extends MusicBeatState
 		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, RIGHT);
 		text.scrollFactor.set();
 		add(text);
+
+        var staticTV:FlxSprite = new FlxSprite();
+		staticTV.antialiasing = ClientPrefs.globalAntialiasing;
+		staticTV.frames = Paths.getSparrowAtlas("static");
+		staticTV.animation.addByPrefix('idle', 'static', 24, true);
+		staticTV.animation.play('idle');
+		staticTV.scrollFactor.set();
+		staticTV.screenCenter();
+		staticTV.alpha = 0.65;
+        add(staticTV);
+
 		super.create();
 	}
 
