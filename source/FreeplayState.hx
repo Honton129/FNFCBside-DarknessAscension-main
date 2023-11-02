@@ -187,7 +187,7 @@ class FreeplayState extends MusicBeatState
 		staticTV.animation.play('idle');
 		staticTV.scrollFactor.set();
 		staticTV.screenCenter();
-		staticTV.alpha = 0.65;
+		staticTV.alpha = 0.3;
         add(staticTV);
 
 		super.create();
