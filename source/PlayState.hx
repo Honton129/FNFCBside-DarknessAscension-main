@@ -635,19 +635,23 @@ class PlayState extends MusicBeatState
 				pogaCorrupted.setGraphicSize(Std.int(pogaCorrupted.width * 1.5));
 
 			case 'limo': //Week 4
-				var skyBG:BGSprite = new BGSprite('street/sky', 0, 0, 0.1, 0.1);
+				var skyBG:BGSprite = new BGSprite('street/sky', -300, -500, 0.1, 0.1);
+				skyBG.setGraphicSize(Std.int(skyBG.width * 1.2));
+				skyBG.updateHitbox();
 				add(skyBG);
 
-				var city:BGSprite = new BGSprite('street/city', 0, 0, 0.4, 0.4);
+				var city:BGSprite = new BGSprite('street/city', -500, -100, 0.4, 0.4);
 				add(city);
 
-				var sign:BGSprite = new BGSprite('street/sign', 0, 0, 0.6, 0.6);
+				var sign:BGSprite = new BGSprite('street/sign', -100, -100, 0.6, 0.6);
 				add(sign);
 
-				var thePole:BGSprite = new BGSprite('street/pole', 0, 0, 0.8, 0.8);
+				var thePole:BGSprite = new BGSprite('street/pole', 0, -50, 0.8, 0.8);
 				add(thePole);
 
-				var street:BGSprite = new BGSprite('street/street', 0, 0, 0.95, 0.95);
+				var street:BGSprite = new BGSprite('street/street', -450, 800, 0.95, 0.95);
+				street.setGraphicSize(Std.int(street.width * 1.2));
+				street.updateHitbox();
 				add(street);
 
 			case 'mall': //Week 5 - Cocoa, Eggnog
