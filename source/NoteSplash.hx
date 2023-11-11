@@ -3,6 +3,8 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
+import shaders.ColorSwap;
+
 class NoteSplash extends FlxSprite
 {
 	public var colorSwap:ColorSwap = null;

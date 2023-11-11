@@ -1,5 +1,7 @@
 package;
 
+import shaders.ColorSwap;
+
 import flixel.FlxSprite;
 
 typedef EventNote = {

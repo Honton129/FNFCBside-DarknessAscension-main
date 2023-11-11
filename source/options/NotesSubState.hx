@@ -5,6 +5,8 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
 
+import shaders.ColorSwap;
+
 class NotesSubState extends MusicBeatSubstate
 {
 	private static var curSelected:Int = 0;

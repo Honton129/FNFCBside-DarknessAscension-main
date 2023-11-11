@@ -7,6 +7,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
+import shaders.DiamondTransShader;
+
 class CustomFadeTransition extends MusicBeatSubstate
 {
     public static var finishCallback:() -> Void;
