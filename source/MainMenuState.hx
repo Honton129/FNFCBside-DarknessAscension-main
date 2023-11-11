@@ -1,25 +1,19 @@
 package;
 
-#if desktop
-import Discord.DiscordClient;
-#end
-
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 import flixel.FlxCamera;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.effects.FlxFlicker;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.input.keyboard.FlxKey;
 import flixel.text.FlxText;
 import flixel.math.FlxMath;
-import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import lime.app.Application;
-import editors.MasterEditorMenu;
-import flixel.input.keyboard.FlxKey;
 
 class MainMenuState extends MusicBeatState
 {
@@ -55,6 +49,7 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Main Menu", "Selecting An Option");
 		#end
+		
 		debugKeys = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 
 		if (!FlxG.sound.music.playing)
@@ -73,9 +68,9 @@ class MainMenuState extends MusicBeatState
 
 		bgStatic = new FlxSprite();
 		bgStatic.frames = Paths.getSparrowAtlas('fondo');
+		bgStatic.antialiasing = ClientPrefs.globalAntialiasing;
 		bgStatic.animation.addByPrefix('idle', 'bg', 24, true);
 		bgStatic.animation.play('idle');
-		bgStatic.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bgStatic);
 
 		overlay = new FlxSprite().loadGraphic(Paths.image('consolador'));
@@ -115,17 +110,18 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("Drum N Bass 22", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("Drum N Bass 22", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("Drum N Bass 22", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
 		changeItem();
-
 		super.create();
 	}
 
@@ -158,65 +154,58 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.BACK)
 			{
+			selectedSomethin = true;
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			MusicBeatState.switchState(new TitleState());
+		}
+
+		if (controls.ACCEPT)
+		{
 				selectedSomethin = true;
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-				MusicBeatState.switchState(new TitleState());
-			}
+				FlxG.sound.play(Paths.sound('confirmMenu'));
 
-			if (controls.ACCEPT)
-			{
-				if (optionShit[curSelected] == 'donate')
+				if (optionShit[curSelected] == 'freeplay')
 				{
-					CoolUtil.browserLoad('https://www.youtube.com/@dasklp2');
+					FlxG.sound.music.stop();
 				}
-				else
+
+				menuItems.forEach(function(spr:FlxSprite)
 				{
-					selectedSomethin = true;
-					FlxG.sound.play(Paths.sound('confirmMenu'));
-
-					if (optionShit[curSelected] == 'freeplay')
+					if (curSelected != spr.ID)
 					{
-						FlxG.sound.music.stop();
-					}
-
-					menuItems.forEach(function(spr:FlxSprite)
-					{
-						if (curSelected != spr.ID)
-						{
-							FlxTween.tween(spr, {alpha: 0}, 0.4, {
-								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
-									spr.kill();
-								}
-							});
-						}
-						else
-						{
-							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+						FlxTween.tween(spr, {alpha: 0}, 0.4, {
+							ease: FlxEase.quadOut,
+							onComplete: function(twn:FlxTween)
 							{
-								var daChoice:String = optionShit[curSelected];
-								switch (daChoice)
-								{
-									case 'story_mode':
-										MusicBeatState.switchState(new StoryMenuState());
-									case 'freeplay':
-										MusicBeatState.switchState(new FreeplayState());
-									case 'credits':
-										MusicBeatState.switchState(new CreditsState());
-									case 'options':
-										LoadingState.loadAndSwitchState(new options.OptionsState());
-								}
-							});
-						}
-					});
-				}
+								spr.kill();
+							}
+						});
+					}
+					else
+					{
+						FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+						{
+							var daChoice:String = optionShit[curSelected];
+							switch (daChoice)
+							{
+								case 'story_mode':
+									MusicBeatState.switchState(new StoryMenuState());
+								case 'freeplay':
+									MusicBeatState.switchState(new FreeplayState());
+								case 'credits':
+									MusicBeatState.switchState(new CreditsState());
+								case 'options':
+									LoadingState.loadAndSwitchState(new options.OptionsState());
+							}
+						});
+					}
+				});
 			}
 			#if desktop
 			else if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;
-				MusicBeatState.switchState(new MasterEditorMenu());
+				MusicBeatState.switchState(new editors.MasterEditorMenu());
 			}
 			else if (FlxG.keys.pressed.ONE)
 			{

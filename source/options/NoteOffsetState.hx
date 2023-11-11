@@ -1,18 +1,16 @@
 package options;
 
-import flixel.util.FlxStringUtil;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.tweens.FlxEase;
-import flixel.text.FlxText;
-import flixel.group.FlxSpriteGroup;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.util.FlxColor;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
-import flixel.FlxG;
-import flixel.ui.FlxBar;
+import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxPoint;
+import flixel.util.FlxColor;
+import flixel.ui.FlxBar;
 
 class NoteOffsetState extends MusicBeatState
 {
@@ -58,7 +56,7 @@ class NoteOffsetState extends MusicBeatState
 
 		persistentUpdate = true;
 		FlxG.sound.pause();
-		// Stage
+
 		var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
 		add(bg);
 
@@ -96,7 +94,6 @@ class NoteOffsetState extends MusicBeatState
 		add(boyfriend);
 
 		// Combo stuff
-
 		coolText = new FlxText(0, 0, 0, '', 32);
 		coolText.screenCenter();
 		coolText.x = FlxG.width * 0.35;
@@ -139,7 +136,6 @@ class NoteOffsetState extends MusicBeatState
 		repositionCombo();
 
 		// Note delay stuff
-		
 		beatText = new Alphabet(0, 0, 'Beat Hit!', true);
 		beatText.scaleX = 0.6;
 		beatText.scaleY = 0.6;
@@ -177,7 +173,6 @@ class NoteOffsetState extends MusicBeatState
 		add(timeBarBG);
 		add(timeBar);
 		add(timeTxt);
-
 		///////////////////////
 
 		var blackBox:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, 40, FlxColor.BLACK);
@@ -266,7 +261,6 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = true;
 					startComboOffset.x = ClientPrefs.comboOffset[2];
 					startComboOffset.y = ClientPrefs.comboOffset[3];
-					//trace('yo bro');
 				}
 				else if (startMousePos.x - rating.x >= 0 && startMousePos.x - rating.x <= rating.width &&
 						 startMousePos.y - rating.y >= 0 && startMousePos.y - rating.y <= rating.height)
@@ -274,12 +268,10 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = false;
 					startComboOffset.x = ClientPrefs.comboOffset[0];
 					startComboOffset.y = ClientPrefs.comboOffset[1];
-					//trace('heya');
 				}
 			}
 			if(FlxG.mouse.justReleased) {
 				holdingObjectType = null;
-				//trace('dead');
 			}
 
 			if(holdingObjectType != null)

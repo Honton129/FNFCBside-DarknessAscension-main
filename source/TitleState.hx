@@ -1,46 +1,30 @@
 package;
 
-#if desktop
-import sys.thread.Thread;
-#end
-
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.input.keyboard.FlxKey;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.input.gamepad.FlxGamepad;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.transition.TransitionData;
-import haxe.Json;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.graphics.frames.FlxFrame;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.group.FlxGroup;
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
+import flixel.math.FlxMath;
 
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
 #end
 
-import options.GraphicsSettingsSubState;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.graphics.frames.FlxFrame;
-import flixel.group.FlxGroup;
-import flixel.input.gamepad.FlxGamepad;
-import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
-import flixel.math.FlxRect;
-import flixel.system.FlxSound;
-import flixel.system.ui.FlxSoundTray;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
-import flixel.util.FlxTimer;
+import haxe.Json;
+import openfl.display.BitmapData;
 import openfl.Assets;
 
 typedef TitleData =
 {
-
 	titlex:Float,
 	titley:Float,
 	startx:Float,
@@ -92,15 +76,13 @@ class TitleState extends MusicBeatState
 
 		PlayerSettings.init();
 		curWacky = FlxG.random.getObject(getIntroTextShit());
-		swagShader = new ColorSwap();
 
 		super.create();
 
-		FlxG.save.bind('funkin', CoolUtil.getSavePath());
+		FlxG.save.bind('DA', CoolUtil.getSavePath());
 		ClientPrefs.loadPrefs();
 		Highscore.load();
 
-		// IGNORE THIS!!!
 		titleJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
 
 		if(!initialized)
@@ -134,7 +116,6 @@ class TitleState extends MusicBeatState
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
-	var swagShader:ColorSwap = null;
 
 	function startIntro()
 	{
@@ -170,18 +151,14 @@ class TitleState extends MusicBeatState
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
 
-		swagShader = new ColorSwap();
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
-
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
 
 		add(gfDance);
-		gfDance.shader = swagShader.shader;
 		add(logoBl);
-		logoBl.shader = swagShader.shader;
 
 		titleText = new FlxSprite(titleJSON.startx, titleJSON.starty);
 		#if (desktop && MODS_ALLOWED)
@@ -258,7 +235,6 @@ class TitleState extends MusicBeatState
 		{
 			swagGoodArray.push(i.split('--'));
 		}
-
 		return swagGoodArray;
 	}
 
@@ -272,28 +248,12 @@ class TitleState extends MusicBeatState
 			Conductor.songPosition = FlxG.sound.music.time;
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
-
-		#if mobile
-		for (touch in FlxG.touches.list)
-		{
-			if (touch.justPressed)
-			{
-				pressedEnter = true;
-			}
-		}
-		#end
-
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		if (gamepad != null)
 		{
 			if (gamepad.justPressed.START)
 				pressedEnter = true;
-
-			#if switch
-			if (gamepad.justPressed.B)
-				pressedEnter = true;
-			#end
 		}
 		
 		if (newTitle) {
@@ -340,12 +300,6 @@ class TitleState extends MusicBeatState
 			skipIntro();
 		}
 
-		if(swagShader != null)
-		{
-			if(controls.UI_LEFT) swagShader.hue -= elapsed * 0.1;
-			if(controls.UI_RIGHT) swagShader.hue += elapsed * 0.1;
-		}
-
 		super.update(elapsed);
 	}
 
@@ -383,7 +337,7 @@ class TitleState extends MusicBeatState
 		}
 	}
 
-	private var sickBeats:Int = 0; //Basically curBeat but won't be skipped if you hold the tab or resize the screen
+	private var sickBeats:Int = 0;
 	public static var closedState:Bool = false;
 	override function beatHit()
 	{

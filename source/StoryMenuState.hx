@@ -1,9 +1,5 @@
 package;
 
-#if desktop
-import Discord.DiscordClient;
-#end
-
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -14,6 +10,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.graphics.FlxGraphic;
+
 import WeekData;
 
 class StoryMenuState extends MusicBeatState
@@ -331,7 +328,6 @@ class StoryMenuState extends MusicBeatState
 
 		var diff:String = CoolUtil.difficulties[curDifficulty];
 		var newImage:FlxGraphic = Paths.image('menudifficulties/' + Paths.formatToSongPath(diff));
-		//trace(Paths.currentModDirectory + ', menudifficulties/' + Paths.formatToSongPath(diff));
 
 		if(sprDifficulty.graphic != newImage)
 		{

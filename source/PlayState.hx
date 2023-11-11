@@ -1,15 +1,9 @@
 package;
 
-#if desktop
-import Discord.DiscordClient;
-#end
-
-import Section.SwagSection;
-import Song.SwagSong;
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.FlxCamera;
 import flixel.FlxSubState;
 import flixel.addons.effects.FlxTrail;
 import flixel.addons.transition.FlxTransitionableState;
@@ -22,31 +16,23 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
-import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxTimer;
-import haxe.Json;
-import lime.utils.Assets;
-import openfl.Lib;
-import openfl.filters.BitmapFilter;
-import openfl.utils.Assets as OpenFlAssets;
-import flixel.group.FlxSpriteGroup;
-import flixel.input.keyboard.FlxKey;
-import Note.EventNote;
-import openfl.events.KeyboardEvent;
 import flixel.util.FlxSave;
 import flixel.animation.FlxAnimationController;
-import animateatlas.AtlasFrameMaker;
-import StageData;
-import FunkinLua;
-import DialogueBoxPsych;
-import Conductor.Rating;
+import flixel.group.FlxSpriteGroup;
+import flixel.input.keyboard.FlxKey;
+
+import haxe.Json;
+
+import lime.utils.Assets;
+import openfl.utils.Assets as OpenFlAssets;
+import openfl.events.KeyboardEvent;
 
 #if !flash 
 import flixel.addons.display.FlxRuntimeShader;
-import openfl.filters.ShaderFilter;
 #end
 
 #if sys
@@ -60,6 +46,14 @@ import sys.io.File;
 #elseif (hxCodec == "2.6.0") import VideoHandler;
 #else import vlc.MP4Handler as VideoHandler; #end
 #end
+
+import FunkinLua;
+import Note.EventNote;
+import Song.SwagSong;
+import Conductor.Rating;
+import Section.SwagSection;
+import DialogueBoxPsych;
+import StageData;
 
 class PlayState extends MusicBeatState
 {
@@ -1786,7 +1780,7 @@ class PlayState extends MusicBeatState
 						countdownReady.screenCenter();
 						countdownReady.antialiasing = antialias;
 						insert(members.indexOf(notes), countdownReady);
-						FlxTween.tween(countdownReady, {/*y: countdownReady.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownReady, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -1806,7 +1800,7 @@ class PlayState extends MusicBeatState
 						countdownSet.screenCenter();
 						countdownSet.antialiasing = antialias;
 						insert(members.indexOf(notes), countdownSet);
-						FlxTween.tween(countdownSet, {/*y: countdownSet.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownSet, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -1828,7 +1822,7 @@ class PlayState extends MusicBeatState
 						countdownGo.screenCenter();
 						countdownGo.antialiasing = antialias;
 						insert(members.indexOf(notes), countdownGo);
-						FlxTween.tween(countdownGo, {/*y: countdownGo.y + 100,*/ alpha: 0}, Conductor.crochet / 1000, {
+						FlxTween.tween(countdownGo, {alpha: 0}, Conductor.crochet / 1000, {
 							ease: FlxEase.cubeInOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -1853,7 +1847,6 @@ class PlayState extends MusicBeatState
 				callOnLuas('onCountdownTick', [swagCounter]);
 
 				swagCounter += 1;
-				// generateSong('fresh');
 			}, 5);
 		}
 	}
@@ -2280,7 +2273,6 @@ class PlayState extends MusicBeatState
 	{
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
 			if (player < 1)
 			{
@@ -2292,9 +2284,8 @@ class PlayState extends MusicBeatState
 			babyArrow.downScroll = ClientPrefs.downScroll;
 			if (!isStoryMode && !skipArrowStartTween)
 			{
-				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				FlxTween.tween(babyArrow, {alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 			else
 			{
@@ -2812,20 +2803,11 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 		paused = true;
 
-		// 1 / 1000 chance for Gitaroo Man easter egg
-		/*if (FlxG.random.bool(0.1))
-		{
-			// gitaroo man easter egg
-			cancelMusicFadeTween();
-			MusicBeatState.switchState(new GitarooPause());
-		}
-		else {*/
 		if(FlxG.sound.music != null) {
 			FlxG.sound.music.pause();
 			vocals.pause();
 		}
 		openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-		//}
 
 		#if desktop
 		DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -3556,9 +3538,7 @@ class PlayState extends MusicBeatState
 	private function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.ratingOffset);
-		//trace(noteDiff, ' ' + Math.abs(note.strumTime - Conductor.songPosition));
 
-		// boyfriend.playAnim('hey');
 		vocals.volume = 1;
 
 		var placement:String = Std.string(combo);
@@ -3566,7 +3546,6 @@ class PlayState extends MusicBeatState
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
 		coolText.screenCenter();
 		coolText.x = FlxG.width * 0.35;
-		//
 
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
@@ -3726,13 +3705,8 @@ class PlayState extends MusicBeatState
 			if(numScore.x > xThing) xThing = numScore.x;
 		}
 		comboSpr.x = xThing + 50;
-		/*
-			trace(combo);
-			trace(seperatedScore);
-		 */
 
 		coolText.text = Std.string(seperatedScore);
-		// add(coolText);
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
 			startDelay: Conductor.crochet * 0.001 / playbackRate

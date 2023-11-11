@@ -1,46 +1,34 @@
 package editors;
 
-#if desktop
-import Discord.DiscordClient;
-#end
-import animateatlas.AtlasFrameMaker;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.FlxCamera;
-import flixel.input.keyboard.FlxKey;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.graphics.FlxGraphic;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.addons.ui.FlxInputText;
-import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
-import flixel.addons.ui.FlxUITooltip.FlxUITooltipStyle;
+import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+import flixel.animation.FlxAnimation;
 import flixel.ui.FlxButton;
-import flixel.ui.FlxSpriteButton;
+
+import animateatlas.AtlasFrameMaker;
+import openfl.events.IOErrorEvent;
 import openfl.net.FileReference;
 import openfl.events.Event;
-import openfl.events.IOErrorEvent;
 import haxe.Json;
-import Character;
-import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
-import lime.system.Clipboard;
-import flixel.animation.FlxAnimation;
 
 #if MODS_ALLOWED
 import sys.FileSystem;
 #end
 
-/**
-	*DEBUG MODE
- */
+import Character;
+
 class CharacterEditorState extends MusicBeatState
 {
 	var char:Character;
@@ -270,65 +258,6 @@ class CharacterEditorState extends MusicBeatState
 			changeBGbutton.text = "Pixel BG";
 		}
 	}
-
-	/*var animationInputText:FlxUIInputText;
-	function addOffsetsUI() {
-		var tab_group = new FlxUI(null, UI_box);
-		tab_group.name = "Offsets";
-
-		animationInputText = new FlxUIInputText(15, 30, 100, 'idle', 8);
-
-		var addButton:FlxButton = new FlxButton(animationInputText.x + animationInputText.width + 23, animationInputText.y - 2, "Add", function()
-		{
-			var theText:String = animationInputText.text;
-			if(theText != '') {
-				var alreadyExists:Bool = false;
-				for (i in 0...animList.length) {
-					if(animList[i] == theText) {
-						alreadyExists = true;
-						break;
-					}
-				}
-
-				if(!alreadyExists) {
-					char.animOffsets.set(theText, [0, 0]);
-					animList.push(theText);
-				}
-			}
-		});
-
-		var removeButton:FlxButton = new FlxButton(animationInputText.x + animationInputText.width + 23, animationInputText.y + 20, "Remove", function()
-		{
-			var theText:String = animationInputText.text;
-			if(theText != '') {
-				for (i in 0...animList.length) {
-					if(animList[i] == theText) {
-						if(char.animOffsets.exists(theText)) {
-							char.animOffsets.remove(theText);
-						}
-
-						animList.remove(theText);
-						if(char.animation.curAnim.name == theText && animList.length > 0) {
-							char.playAnim(animList[0], true);
-						}
-						break;
-					}
-				}
-			}
-		});
-
-		var saveButton:FlxButton = new FlxButton(animationInputText.x, animationInputText.y + 35, "Save Offsets", function()
-		{
-			saveOffsets();
-		});
-
-		tab_group.add(new FlxText(10, animationInputText.y - 18, 0, 'Add/Remove Animation:'));
-		tab_group.add(addButton);
-		tab_group.add(removeButton);
-		tab_group.add(saveButton);
-		tab_group.add(animationInputText);
-		UI_box.addGroup(tab_group);
-	}*/
 
 	var TemplateCharacter:String = '{
 			"animations": [
@@ -935,15 +864,6 @@ class CharacterEditorState extends MusicBeatState
 
 		char.setPosition(char.positionArray[0] + OFFSET_X + 100, char.positionArray[1]);
 
-		/* THIS FUNCTION WAS USED TO PUT THE .TXT OFFSETS INTO THE .JSON
-
-		for (anim => offset in char.animOffsets) {
-			var leAnim:AnimArray = findAnimationByName(anim);
-			if(leAnim != null) {
-				leAnim.offsets = [offset[0], offset[1]];
-			}
-		}*/
-
 		if(blahBlahBlah) {
 			genBoyOffsets();
 		}
@@ -1214,28 +1134,11 @@ class CharacterEditorState extends MusicBeatState
 				}
 			}
 		}
-		//camMenu.zoom = FlxG.camera.zoom;
 		ghostChar.setPosition(char.x, char.y);
 		super.update(elapsed);
 	}
 
 	var _file:FileReference;
-	/*private function saveOffsets()
-	{
-		var data:String = '';
-		for (anim => offsets in char.animOffsets) {
-			data += anim + ' ' + offsets[0] + ' ' + offsets[1] + '\n';
-		}
-
-		if (data.length > 0)
-		{
-			_file = new FileReference();
-			_file.addEventListener(Event.COMPLETE, onSaveComplete);
-			_file.addEventListener(Event.CANCEL, onSaveCancel);
-			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data, daAnim + "Offsets.txt");
-		}
-	}*/
 
 	function onSaveComplete(_):Void
 	{
@@ -1247,8 +1150,8 @@ class CharacterEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called when the save file dialog is cancelled.
-		*/
+	* Called when the save file dialog is cancelled.
+	*/
 	function onSaveCancel(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
@@ -1258,8 +1161,8 @@ class CharacterEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called if there is an error while saving the gameplay recording.
-		*/
+	* Called if there is an error while saving the gameplay recording.
+	*/
 	function onSaveError(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
@@ -1295,15 +1198,5 @@ class CharacterEditorState extends MusicBeatState
 			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 			_file.save(data, daAnim + ".json");
 		}
-	}
-
-	function ClipboardAdd(prefix:String = ''):String {
-		if(prefix.toLowerCase().endsWith('v')) //probably copy paste attempt
-		{
-			prefix = prefix.substring(0, prefix.length-1);
-		}
-
-		var text:String = prefix + Clipboard.text.replace('\n', '');
-		return text;
 	}
 }

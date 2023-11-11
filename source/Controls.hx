@@ -5,8 +5,8 @@ import flixel.input.FlxInput;
 import flixel.input.actions.FlxAction;
 import flixel.input.actions.FlxActionInput;
 import flixel.input.actions.FlxActionManager;
-import flixel.input.actions.FlxActionSet;
 import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.actions.FlxActionSet;
 import flixel.input.keyboard.FlxKey;
 
 #if (haxe >= "4.0.0")

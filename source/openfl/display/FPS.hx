@@ -80,7 +80,7 @@ class FPS extends TextField
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
 		if (currentFPS > ClientPrefs.framerate) currentFPS = ClientPrefs.framerate;
 
-		if (currentCount != cacheCount /*&& visible*/)
+		if (currentCount != cacheCount)
 		{
 			text = "FPS: " + currentFPS;
 			var memoryMegas:Float = 0;

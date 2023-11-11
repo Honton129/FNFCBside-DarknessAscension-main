@@ -1,22 +1,19 @@
 package;
 
-import animateatlas.AtlasFrameMaker;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.effects.FlxTrail;
-import flixel.animation.FlxBaseAnimation;
-import flixel.graphics.frames.FlxAtlasFrames;
+import animateatlas.AtlasFrameMaker;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxSort;
-import Section.SwagSection;
+
 #if MODS_ALLOWED
 import sys.io.File;
 import sys.FileSystem;
 #end
+
 import openfl.utils.AssetType;
 import openfl.utils.Assets;
 import haxe.Json;
-import haxe.format.JsonParser;
 
 typedef CharacterFile = {
 	var animations:Array<AnimArray>;
@@ -120,15 +117,10 @@ class Character extends FlxSprite
 
 				var json:CharacterFile = cast Json.parse(rawJson);
 				var spriteType = "sparrow";
-				//sparrow
-				//packer
-				//texture
+
 				#if MODS_ALLOWED
 				var modTxtToFind:String = Paths.modsTxt(json.image);
 				var txtToFind:String = Paths.getPath('images/' + json.image + '.txt', TEXT);
-				
-				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
-				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
 				
 				if (FileSystem.exists(modTxtToFind) || FileSystem.exists(txtToFind) || Assets.exists(txtToFind))
 				#else
@@ -141,9 +133,6 @@ class Character extends FlxSprite
 				#if MODS_ALLOWED
 				var modAnimToFind:String = Paths.modFolders('images/' + json.image + '/Animation.json');
 				var animToFind:String = Paths.getPath('images/' + json.image + '/Animation.json', TEXT);
-				
-				//var modTextureToFind:String = Paths.modFolders("images/"+json.image);
-				//var textureToFind:String = Paths.getPath('images/' + json.image, new AssetType();
 				
 				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(animToFind) || Assets.exists(animToFind))
 				#else
@@ -210,7 +199,7 @@ class Character extends FlxSprite
 				} else {
 					quickAnimAdd('idle', 'BF idle dance');
 				}
-				//trace('Loaded file to character ' + curCharacter);
+				trace('Loaded file to character ' + curCharacter);
 		}
 		originalFlipX = flipX;
 
@@ -271,8 +260,8 @@ class Character extends FlxSprite
 	public var danced:Bool = false;
 
 	/**
-	 * FOR GF DANCING SHIT
-	 */
+	* FOR GF DANCING SHIT
+	*/
 	public function dance()
 	{
 		if (!debugMode && !skipDance && !specialAnim)

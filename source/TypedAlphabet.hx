@@ -1,13 +1,6 @@
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxSpriteGroup;
-import flixel.math.FlxMath;
-import flixel.util.FlxTimer;
-import flixel.system.FlxSound;
-import flash.media.Sound;
 
 class TypedAlphabet extends Alphabet
 {
@@ -72,7 +65,6 @@ class TypedAlphabet extends Alphabet
 		for (i in start...(upTo+1))
 		{
 			if(letters[i] != null) letters[i].visible = true;
-			//trace('test, showing: $i');
 		}
 	}
 

@@ -1,23 +1,18 @@
 package;
 
-#if desktop
-import Discord.DiscordClient;
-#end
-import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+
 #if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
 #end
-import lime.utils.Assets;
 
 class CreditsState extends MusicBeatState
 {
@@ -147,9 +142,8 @@ class CreditsState extends MusicBeatState
 		add(descBox);
 
 		descText = new FlxText(50, FlxG.height + offsetThing - 25, 1180, "", 32);
-		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 		descText.scrollFactor.set();
-		//descText.borderSize = 2.4;
 		descBox.sprTracker = descText;
 		add(descText);
 

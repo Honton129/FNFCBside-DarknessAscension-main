@@ -6,9 +6,9 @@ import sys.FileSystem;
 #else
 import openfl.utils.Assets;
 #end
+
+import Song.SwagSong;
 import haxe.Json;
-import haxe.format.JsonParser;
-import Song;
 
 typedef StageFile = {
 	var directory:String;

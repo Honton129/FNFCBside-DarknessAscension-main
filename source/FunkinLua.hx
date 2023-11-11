@@ -1,6 +1,5 @@
 package;
 
-import openfl.display.BitmapData;
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;
@@ -8,31 +7,25 @@ import llua.State;
 import llua.Convert;
 #end
 
-import animateatlas.AtlasFrameMaker;
 import flixel.FlxG;
-import flixel.addons.effects.FlxTrail;
-import flixel.input.keyboard.FlxKey;
-import flixel.tweens.FlxTween;
-import flixel.tweens.FlxEase;
-import flixel.text.FlxText;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxPoint;
-import flixel.system.FlxSound;
-import flixel.util.FlxTimer;
 import flixel.FlxSprite;
-import flixel.FlxCamera;
-import flixel.util.FlxColor;
 import flixel.FlxBasic;
 import flixel.FlxObject;
-import flixel.FlxSprite;
-import openfl.Lib;
-import openfl.display.BlendMode;
-import openfl.filters.BitmapFilter;
-import openfl.utils.Assets;
+import flixel.FlxCamera;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.util.FlxTimer;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
-import flixel.system.FlxAssets.FlxShader;
+import flixel.system.FlxSound;
+
+import animateatlas.AtlasFrameMaker;
+import openfl.display.BlendMode;
+import openfl.utils.Assets;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -44,17 +37,11 @@ import sys.io.File;
 #end
 
 import Type.ValueType;
-import Controls;
 import DialogueBoxPsych;
 
 #if hscript
 import hscript.Parser;
 import hscript.Interp;
-import hscript.Expr;
-#end
-
-#if desktop
-import Discord;
 #end
 
 class FunkinLua {
@@ -80,10 +67,6 @@ class FunkinLua {
 		LuaL.openlibs(lua);
 		Lua.init_callbacks(lua);
 
-		//trace('Lua version: ' + Lua.version());
-		//trace("LuaJIT version: " + Lua.versionJIT());
-
-		//LuaL.dostring(lua, CLENSE);
 		try{
 			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
@@ -448,11 +431,9 @@ class FunkinLua {
 			var shader:FlxRuntimeShader = getShader(obj);
 			if(shader == null) return;
 
-			// trace('bitmapdatapath: $bitmapdataPath');
 			var value = Paths.image(bitmapdataPath);
 			if(value != null && value.bitmap != null)
 			{
-				// trace('Found bitmapdata. Width: ${value.bitmap.width} Height: ${value.bitmap.height}');
 				shader.setSampler2D(prop, value.bitmap);
 			}
 			#else
@@ -460,8 +441,6 @@ class FunkinLua {
 			#end
 		});
 
-
-		//
 		Lua_helper.add_callback(lua, "getRunningScripts", function(){
 			var runningScripts:Array<String> = [];
 			for (idx in 0...PlayState.instance.luaArray.length)
@@ -600,7 +579,6 @@ class FunkinLua {
 							Lua.pushnil(lua);
 						}
 						// TODO: table
-
 						Lua.pop(luaInstance.lua,1); // remove the global
 
 						return;
@@ -647,88 +625,6 @@ class FunkinLua {
 				}
 			}
 		});
-		/*Lua_helper.add_callback(lua, "getGlobals", function(luaFile:String){ // returns a copy of the specified file's globals
-			var cervix = luaFile + ".lua";
-			if(luaFile.endsWith(".lua"))cervix=luaFile;
-			var doPush = false;
-			#if MODS_ALLOWED
-			if(FileSystem.exists(Paths.modFolders(cervix)))
-			{
-				cervix = Paths.modFolders(cervix);
-				doPush = true;
-			}
-			else if(FileSystem.exists(cervix))
-			{
-				doPush = true;
-			}
-			else {
-				cervix = Paths.getPreloadPath(cervix);
-				if(FileSystem.exists(cervix)) {
-					doPush = true;
-				}
-			}
-			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if(Assets.exists(cervix)) {
-				doPush = true;
-			}
-			#end
-			if(doPush)
-			{
-				for (luaInstance in PlayState.instance.luaArray)
-				{
-					if(luaInstance.scriptName == cervix)
-					{
-						Lua.newtable(lua);
-						var tableIdx = Lua.gettop(lua);
-
-						Lua.pushvalue(luaInstance.lua, Lua.LUA_GLOBALSINDEX);
-						while(Lua.next(luaInstance.lua, -2) != 0) {
-							// key = -2
-							// value = -1
-
-							var pop:Int = 0;
-
-							// Manual conversion
-							// first we convert the key
-							if(Lua.isnumber(luaInstance.lua,-2)){
-								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -2));
-								pop++;
-							}else if(Lua.isstring(luaInstance.lua,-2)){
-								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -2));
-								pop++;
-							}else if(Lua.isboolean(luaInstance.lua,-2)){
-								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -2));
-								pop++;
-							}
-							// TODO: table
-
-
-							// then the value
-							if(Lua.isnumber(luaInstance.lua,-1)){
-								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
-								pop++;
-							}else if(Lua.isstring(luaInstance.lua,-1)){
-								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
-								pop++;
-							}else if(Lua.isboolean(luaInstance.lua,-1)){
-								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
-								pop++;
-							}
-							// TODO: table
-
-							if(pop==2)Lua.rawset(lua, tableIdx); // then set it
-							Lua.pop(luaInstance.lua, 1); // for the loop
-						}
-						Lua.pop(luaInstance.lua,1); // end the loop entirely
-						Lua.pushvalue(lua, tableIdx); // push the table onto the stack so it gets returned
-
-						return;
-					}
-
-				}
-			}
-		});*/
 		Lua_helper.add_callback(lua, "isRunning", function(luaFile:String){
 			var cervix = luaFile + ".lua";
 			if(luaFile.endsWith(".lua"))cervix=luaFile;
@@ -1298,38 +1194,6 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "cancelTimer", function(tag:String) {
 			cancelTimer(tag);
 		});
-
-		/*Lua_helper.add_callback(lua, "getPropertyAdvanced", function(varsStr:String) {
-			var variables:Array<String> = varsStr.replace(' ', '').split(',');
-			var leClass:Class<Dynamic> = Type.resolveClass(variables[0]);
-			if(variables.length > 2) {
-				var curProp:Dynamic = Reflect.getProperty(leClass, variables[1]);
-				if(variables.length > 3) {
-					for (i in 2...variables.length-1) {
-						curProp = Reflect.getProperty(curProp, variables[i]);
-					}
-				}
-				return Reflect.getProperty(curProp, variables[variables.length-1]);
-			} else if(variables.length == 2) {
-				return Reflect.getProperty(leClass, variables[variables.length-1]);
-			}
-			return null;
-		});
-		Lua_helper.add_callback(lua, "setPropertyAdvanced", function(varsStr:String, value:Dynamic) {
-			var variables:Array<String> = varsStr.replace(' ', '').split(',');
-			var leClass:Class<Dynamic> = Type.resolveClass(variables[0]);
-			if(variables.length > 2) {
-				var curProp:Dynamic = Reflect.getProperty(leClass, variables[1]);
-				if(variables.length > 3) {
-					for (i in 2...variables.length-1) {
-						curProp = Reflect.getProperty(curProp, variables[i]);
-					}
-				}
-				return Reflect.setProperty(curProp, variables[variables.length-1], value);
-			} else if(variables.length == 2) {
-				return Reflect.setProperty(leClass, variables[variables.length-1], value);
-			}
-		});*/
 
 		//stupid bietch ass functions
 		Lua_helper.add_callback(lua, "addScore", function(value:Int = 0) {
@@ -1999,14 +1863,6 @@ class FunkinLua {
 		});
 
 		Lua_helper.add_callback(lua, "setObjectCamera", function(obj:String, camera:String = '') {
-			/*if(PlayState.instance.modchartSprites.exists(obj)) {
-				PlayState.instance.modchartSprites.get(obj).cameras = [cameraFromString(camera)];
-				return true;
-			}
-			else if(PlayState.instance.modchartTexts.exists(obj)) {
-				PlayState.instance.modchartTexts.get(obj).cameras = [cameraFromString(camera)];
-				return true;
-			}*/
 			var real = PlayState.instance.getLuaObject(obj);
 			if(real!=null){
 				real.cameras = [cameraFromString(camera)];
@@ -2790,9 +2646,6 @@ class FunkinLua {
 			}
 			return blah;
 		}
-		/*if(Std.isOfType(instance, Map))
-			instance.set(variable,value);
-		else*/
 			
 		if(PlayState.instance.variables.exists(variable))
 		{

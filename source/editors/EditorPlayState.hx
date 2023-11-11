@@ -1,24 +1,21 @@
 package editors;
 
-import Section.SwagSection;
-import Song.SwagSong;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.util.FlxColor;
-import flixel.FlxSprite;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
+import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
-import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
-import FunkinLua;
+
+import Section.SwagSection;
 
 class EditorPlayState extends MusicBeatState
 {
@@ -91,11 +88,6 @@ class EditorPlayState extends MusicBeatState
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
-		/*if(ClientPrefs.middleScroll) {
-			opponentStrums.forEachAlive(function (note:StrumNote) {
-				note.visible = false;
-			});
-		}*/
 		
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 		add(grpNoteSplashes);
@@ -361,17 +353,6 @@ class EditorPlayState extends MusicBeatState
 			var fakeCrochet:Float = (60 / PlayState.SONG.bpm) * 1000;
 			notes.forEachAlive(function(daNote:Note)
 			{
-				/*if (daNote.y > FlxG.height)
-				{
-					daNote.active = false;
-					daNote.visible = false;
-				}
-				else
-				{
-					daNote.visible = true;
-					daNote.active = true;
-				}*/
-
 				// i am so fucking sorry for this if condition
 				var strumX:Float = 0;
 				var strumY:Float = 0;
@@ -551,7 +532,6 @@ class EditorPlayState extends MusicBeatState
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
-		//trace('Pressed: ' + eventKey);
 
 		if (key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || ClientPrefs.controllerMode))
 		{
@@ -565,10 +545,7 @@ class EditorPlayState extends MusicBeatState
 
 				// heavily based on my own code LOL if it aint broke dont fix it
 				var pressNotes:Array<Note> = [];
-				//var notesDatas:Array<Int> = [];
 				var notesStopped:Bool = false;
-
-				//trace('test!');
 				var sortedNotesList:Array<Note> = [];
 				notes.forEachAlive(function(daNote:Note)
 				{
@@ -577,7 +554,6 @@ class EditorPlayState extends MusicBeatState
 						if(daNote.noteData == key)
 						{
 							sortedNotesList.push(daNote);
-							//notesDatas.push(daNote.noteData);
 						}
 						canMiss = true;
 					}
@@ -644,7 +620,6 @@ class EditorPlayState extends MusicBeatState
 				spr.resetAnim = 0;
 			}
 		}
-		//trace('released: ' + controlArray);
 	}
 
 	private function getKeyFromEvent(key:FlxKey):Int
@@ -688,7 +663,6 @@ class EditorPlayState extends MusicBeatState
 			}
 		}
 
-		// FlxG.watch.addQuick('asdfa', upP);
 		if (generatedMusic)
 		{
 			// rewritten inputs???
@@ -776,7 +750,6 @@ class EditorPlayState extends MusicBeatState
 	{
 		combo = 0;
 
-		//songScore -= 10;
 		songMisses++;
 
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
@@ -796,42 +769,28 @@ class EditorPlayState extends MusicBeatState
 		var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
 		coolText.x = COMBO_X;
 		coolText.y = COMBO_Y;
-		//
 
 		var rating:FlxSprite = new FlxSprite();
-		//var score:Int = 350;
 
 		var daRating:String = "sick";
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
 			daRating = 'shit';
-			//score = 50;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.5)
 		{
 			daRating = 'bad';
-			//score = 100;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.25)
 		{
 			daRating = 'good';
-			//score = 200;
 		}
 
 		if(daRating == 'sick' && !note.noteSplashDisabled)
 		{
 			spawnNoteSplashOnNote(note);
 		}
-		//songScore += score;
-
-		/* if (combo > 60)
-				daRating = 'sick';
-			else if (combo > 12)
-				daRating = 'good'
-			else if (combo > 4)
-				daRating = 'bad';
-			*/
 
 		var pixelShitPart1:String = "";
 		var pixelShitPart2:String = '';
@@ -929,13 +888,7 @@ class EditorPlayState extends MusicBeatState
 
 			daLoop++;
 		}
-		/* 
-			trace(combo);
-			trace(seperatedScore);
-			*/
-
 		coolText.text = Std.string(seperatedScore);
-		// comboGroup.add(coolText);
 
 		FlxTween.tween(rating, {alpha: 0}, 0.2, {
 			startDelay: Conductor.crochet * 0.001

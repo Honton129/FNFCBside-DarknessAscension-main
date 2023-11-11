@@ -23,9 +23,6 @@ import js.html.File;
 #end
 class AtlasFrameMaker extends FlxFramesCollection
 {
-	//public static var widthoffset:Int = 0;
-	//public static var heightoffset:Int = 0;
-	//public static var excludeArray:Array<String>;
 	/**
 	
 	* Creates Frames from TextureAtlas(very early and broken ok) Originally made for FNF HD by Smokey and Rozebud
@@ -37,9 +34,6 @@ class AtlasFrameMaker extends FlxFramesCollection
 
 	public static function construct(key:String,?_excludeArray:Array<String> = null, ?noAntialiasing:Bool = false):FlxFramesCollection
 	{
-		// widthoffset = _widthoffset;
-		// heightoffset = _heightoffset;
-
 		var frameCollection:FlxFramesCollection;
 		var frameArray:Array<Array<FlxFrame>> = [];
 

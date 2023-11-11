@@ -8,28 +8,9 @@ import llua.Convert;
 #end
 
 import flixel.FlxG;
-import flixel.tweens.FlxTween;
-import flixel.tweens.FlxEase;
-import flixel.text.FlxText;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxPoint;
-import flixel.system.FlxSound;
-import flixel.util.FlxTimer;
 import flixel.FlxSprite;
-import flixel.FlxCamera;
-import flixel.util.FlxColor;
-import flixel.FlxBasic;
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#end
+import flixel.group.FlxGroup.FlxTypedGroup;
 import Type.ValueType;
-import Controls;
-import DialogueBoxPsych;
-
-#if desktop
-import Discord;
-#end
 
 class EditorLua {
 	public static var Function_Stop = 1;
@@ -44,9 +25,6 @@ class EditorLua {
 		lua = LuaL.newstate();
 		LuaL.openlibs(lua);
 		Lua.init_callbacks(lua);
-
-		//trace('Lua version: ' + Lua.version());
-		//trace("LuaJIT version: " + Lua.versionJIT());
 
 		var result:Dynamic = LuaL.dofile(lua, script);
 		var resultStr:String = Lua.tostring(lua, result);
@@ -198,9 +176,6 @@ class EditorLua {
 
 		var result:Null<Int> = Lua.pcall(lua, args.length, 1, 0);
 		if(result != null && resultIsAllowed(lua, result)) {
-			/*var resultStr:String = Lua.tostring(lua, result);
-			var error:String = Lua.tostring(lua, -1);
-			Lua.pop(lua, 1);*/
 			if(Lua.type(lua, -1) == Lua.LUA_TSTRING) {
 				var error:String = Lua.tostring(lua, -1);
 				Lua.pop(lua, 1);

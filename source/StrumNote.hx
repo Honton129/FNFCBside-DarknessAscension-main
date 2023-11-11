@@ -2,7 +2,6 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 
 class StrumNote extends FlxSprite
 {
@@ -133,10 +132,8 @@ class StrumNote extends FlxSprite
 				resetAnim = 0;
 			}
 		}
-		//if(animation.curAnim != null){ //my bad i was upset
 		if(animation.curAnim.name == 'confirm' && !PlayState.isPixelStage) {
 			centerOrigin();
-		//}
 		}
 
 		super.update(elapsed);

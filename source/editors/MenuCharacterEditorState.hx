@@ -1,34 +1,27 @@
 package editors;
 
-#if desktop
-import Discord.DiscordClient;
-#end
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.system.FlxSound;
-import flixel.addons.ui.FlxInputText;
-import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
 import flixel.ui.FlxButton;
-import MenuCharacter;
 import openfl.net.FileReference;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import flash.net.FileFilter;
 import haxe.Json;
+
 #if sys
 import sys.io.File;
 #end
+
+import MenuCharacter;
 
 class MenuCharacterEditorState extends MusicBeatState
 {
@@ -375,8 +368,8 @@ class MenuCharacterEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called when the save file dialog is cancelled.
-		*/
+	* Called when the save file dialog is cancelled.
+	*/
 	function onLoadCancel(_):Void
 	{
 		_file.removeEventListener(Event.SELECT, onLoadComplete);
@@ -387,8 +380,8 @@ class MenuCharacterEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called if there is an error while saving the gameplay recording.
-		*/
+	* Called if there is an error while saving the gameplay recording.
+	*/
 	function onLoadError(_):Void
 	{
 		_file.removeEventListener(Event.SELECT, onLoadComplete);
@@ -423,8 +416,8 @@ class MenuCharacterEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called when the save file dialog is cancelled.
-		*/
+	* Called when the save file dialog is cancelled.
+	*/
 	function onSaveCancel(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
@@ -434,8 +427,8 @@ class MenuCharacterEditorState extends MusicBeatState
 	}
 
 	/**
-		* Called if there is an error while saving the gameplay recording.
-		*/
+	* Called if there is an error while saving the gameplay recording.
+	*/
 	function onSaveError(_):Void
 	{
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);

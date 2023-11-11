@@ -1,11 +1,12 @@
 package;
 
+import flixel.FlxSprite;
+import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUIPopup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+
 import openfl.geom.Rectangle;
-import flixel.FlxSprite;
-import flixel.util.FlxColor;
 
 class Prompt extends MusicBeatSubstate
 {

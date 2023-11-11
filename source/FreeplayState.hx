@@ -1,9 +1,5 @@
 package;
 
-#if desktop
-import Discord.DiscordClient;
-#end
-
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -13,6 +9,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.system.FlxSound;
+
 import WeekData;
 import SongMetadata;
 

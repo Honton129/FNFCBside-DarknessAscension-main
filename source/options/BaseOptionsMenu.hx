@@ -1,29 +1,11 @@
 package options;
 
-#if desktop
-import Discord.DiscordClient;
-#end
-import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import lime.utils.Assets;
-import flixel.FlxSubState;
-import flash.text.TextField;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.util.FlxSave;
-import haxe.Json;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxTimer;
-import flixel.input.keyboard.FlxKey;
-import flixel.graphics.FlxGraphic;
-import Controls;
 
 class BaseOptionsMenu extends MusicBeatSubstate
 {
@@ -89,8 +71,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		{
 			var optionText:Alphabet = new Alphabet(290, 260, optionsArray[i].name, false);
 			optionText.isMenuItem = true;
-			/*optionText.forceX = 300;
-			optionText.yMult = 90;*/
 			optionText.targetY = i;
 			grpOptions.add(optionText);
 
@@ -102,7 +82,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			} else {
 				optionText.x -= 80;
 				optionText.startPosition.x -= 80;
-				//optionText.xAdd -= 80;
 				var valueText:AttachedText = new AttachedText('' + optionsArray[i].getValue(), optionText.width + 80);
 				valueText.sprTracker = optionText;
 				valueText.copyAlpha = true;

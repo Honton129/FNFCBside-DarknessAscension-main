@@ -1,35 +1,27 @@
 package editors;
 
-#if desktop
-import Discord.DiscordClient;
-#end
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
+import flixel.FlxCamera;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import flixel.system.FlxSound;
-import flixel.addons.ui.FlxInputText;
-import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.FlxUINumericStepper;
 import flixel.addons.ui.FlxUITabMenu;
+import flixel.group.FlxSpriteGroup;
 import flixel.ui.FlxButton;
+
+import haxe.Json;
+import flash.net.FileFilter;
 import openfl.net.FileReference;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
-import flash.net.FileFilter;
-import haxe.Json;
+
 import DialogueBoxPsych;
-import flixel.FlxCamera;
-import flixel.group.FlxSpriteGroup;
-import lime.system.Clipboard;
 import Alphabet;
+
 #if sys
 import sys.io.File;
 #end
@@ -803,15 +795,5 @@ class DialogueCharacterEditorState extends MusicBeatState
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
 		_file = null;
 		FlxG.log.error("Problem saving file");
-	}
-
-	function ClipboardAdd(prefix:String = ''):String {
-		if(prefix.toLowerCase().endsWith('v')) //probably copy paste attempt
-		{
-			prefix = prefix.substring(0, prefix.length-1);
-		}
-
-		var text:String = prefix + Clipboard.text.replace('\n', '');
-		return text;
 	}
 }

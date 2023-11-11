@@ -2,13 +2,9 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-import flixel.util.FlxTimer;
-import flixel.system.FlxSound;
-import flash.media.Sound;
 
 enum Alignment
 {
@@ -246,12 +242,6 @@ class Alphabet extends FlxSpriteGroup
 // ALPHABET LETTERS, SYMBOLS AND NUMBERS //
 ///////////////////////////////////////////
 
-/*enum LetterType
-{
-	ALPHABET;
-	NUMBER_OR_SYMBOL;
-}*/
-
 typedef Letter = {
 	?anim:Null<String>,
 	?offsets:Array<Float>,
@@ -260,10 +250,6 @@ typedef Letter = {
 
 class AlphaCharacter extends FlxSprite
 {
-	//public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz";
-	//public static var numbers:String = "1234567890";
-	//public static var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
-
 	public var image(default, set):String;
 
 	public static var allLetters:Map<String, Null<Letter>> = [
