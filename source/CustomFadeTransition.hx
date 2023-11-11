@@ -8,41 +8,38 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
-class CustomFadeTransition extends FlxSubState
+class CustomFadeTransition extends MusicBeatSubstate
 {
-    var shader:DiamondTransShader;
-    var rect:FlxSprite;
-    var tween:FlxTween;
-    
     public static var finishCallback:() -> Void;
     public static var nextCamera:FlxCamera;
-    var duration:Float;
+    private var leTween:FlxTween = null;
 
+    var shader:DiamondTransShader;
+    var transBlack:FlxSprite;
+    var rect:FlxSprite;
+    
     var fi:Bool = true;
+    var duration:Float;
+    
 
-    public function new(duration:Float = 1.0, fadeIn:Bool = true)
+    public function new(duration:Float = 1.0, isTransIn:Bool = true)
     {
         super();
-        
-        this.duration = duration;
-        this.fi = fadeIn;
-    }
-
-    override public function create()
-    {
-        super.create();
 
         camera = new FlxCamera();
         camera.bgColor = FlxColor.TRANSPARENT;
 
         FlxG.cameras.add(camera, false);
+        
+        this.duration = duration;
+        this.fi = isTransIn;
 
         shader = new DiamondTransShader();
 
         shader.progress.value = [0.0];
         shader.reverse.value = [false];
 
-        rect = new FlxSprite(0, 0);
+        rect = new FlxSprite();
         rect.makeGraphic(1, 1, 0xFF000000);
         rect.scale.set(1280, 720);
         rect.origin.set();
@@ -50,39 +47,58 @@ class CustomFadeTransition extends FlxSubState
         rect.visible = false;
         add(rect);
 
-        if (fi)
+        transBlack = new FlxSprite();
+        transBlack.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		transBlack.origin.set();
+        transBlack.visible = false;
+		add(transBlack);
+
+        if(fi)
+        {
             fadeIn();
+        }
         else
+        {
             fadeOut();
+        }
 
         if(nextCamera != null) {
 			rect.cameras = [nextCamera];
+            transBlack.cameras = [nextCamera];
 		}
 		nextCamera = null;
 
-		closeCallback = _closeCallback;
+        closeCallback = _closeCallback;
     }
 
     function __fade(from:Float, to:Float, reverse:Bool)
-    {
-        trace("fade initiated");
-        
+    {   
         rect.visible = true;
         shader.progress.value = [from];
         shader.reverse.value = [reverse];
 
-        tween = FlxTween.num(from, to, duration, {ease: FlxEase.linear, onComplete: function(_)
+        if(fi)
         {
-            trace("finished");
-            if (finishCallback != null)
-            {
-                trace("with callback");
-                finishCallback();
-            }
-        }}, function(num:Float)
+            leTween = FlxTween.num(from, to, duration, {
+                onComplete: function(_) {
+                close();
+            }, ease: FlxEase.linear}, 
+                function(num:Float) {
+                shader.progress.value = [num];
+            });
+        }
+        else 
         {
-            shader.progress.value = [num];
-        });
+            leTween = FlxTween.num(from, to, duration, {
+                onComplete: function(_) {
+                if(finishCallback != null) {
+                    finishCallback();
+                }
+            }, ease: FlxEase.linear}, 
+                function(num:Float) {
+                shader.progress.value = [num];
+            });
+        }
     }
 
     function fadeIn()
@@ -97,7 +113,7 @@ class CustomFadeTransition extends FlxSubState
 
     function _closeCallback()
     {
-        if (tween != null)
-            tween.cancel();
+        if (leTween != null)
+            leTween.cancel();
     }
 }
