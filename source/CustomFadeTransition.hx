@@ -1,9 +1,8 @@
 package;
 
-import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxSubState;
+import flixel.FlxCamera;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -17,10 +16,9 @@ class CustomFadeTransition extends MusicBeatSubstate
     var shader:DiamondTransShader;
     var transBlack:FlxSprite;
     var rect:FlxSprite;
-    
+
     var fi:Bool = true;
     var duration:Float;
-    
 
     public function new(duration:Float = 1.0, isTransIn:Bool = true)
     {
@@ -30,7 +28,7 @@ class CustomFadeTransition extends MusicBeatSubstate
         camera.bgColor = FlxColor.TRANSPARENT;
 
         FlxG.cameras.add(camera, false);
-        
+
         this.duration = duration;
         this.fi = isTransIn;
 
