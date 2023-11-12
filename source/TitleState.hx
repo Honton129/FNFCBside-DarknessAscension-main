@@ -143,7 +143,7 @@ class TitleState extends MusicBeatState
 		if (animFrames.length > 0) {
 			newTitle = true;
 			titleText.animation.addByPrefix('idle', "ENTER IDLE", 24);
-			titleText.animation.addByPrefix('press', ClientPrefs.data.flashing ? "ENTER PRESSED" : "ENTER FREEZE", 24);
+			titleText.animation.addByPrefix('press', ClientPrefs.flashing ? "ENTER PRESSED" : "ENTER FREEZE", 24);
 		}
 		else {
 			newTitle = false;
