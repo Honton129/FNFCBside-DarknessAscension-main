@@ -1,22 +1,22 @@
 {
 	"songs": [
-		["Matricidal", "mom", [148, 22, 83]],
-		["Blue-Moon", "mom", [148, 22, 83]],
-		["Test", "bf", [148, 22, 83]]
+		["Deception", "senpai", [148, 22, 83]],
+		["Test", "senpai", [148, 22, 83]],
+		["Test", "senpai", [148, 22, 83]]
 	],
 
 	"weekCharacters": [
-		"mom",
+		"senpai",
 		"bf",
 		"gf"
 	],
-	"weekBackground": "limo",
+	"weekBackground": "school",
 
-	"storyName": "Mujer",
+	"storyName": "Hindrance in the way.",
 	"weekBefore": "week2",
 	"weekName": "Week 3",
 	"startUnlocked": true,
-        "difficulties": "hard",
+    "difficulties": "hard",
 
 	"hideStoryMode": false,
 	"hideFreeplay": false

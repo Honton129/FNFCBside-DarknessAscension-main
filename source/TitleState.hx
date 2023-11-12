@@ -96,7 +96,7 @@ class TitleState extends MusicBeatState
 	}
 
 	var logoBl:FlxSprite;
-	var gfDance:FlxSprite;
+	var bfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 
@@ -117,12 +117,12 @@ class TitleState extends MusicBeatState
 		bgGrad.updateHitbox();
 		add(bgGrad);
 
-		gfDance = new FlxSprite(785, 285);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
-		add(gfDance);
+		bfDance = new FlxSprite(785, 285);
+		bfDance.frames = Paths.getSparrowAtlas('bfDanceTitle');
+		bfDance.animation.addByIndices('danceLeft', 'BF Dancing Beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+		bfDance.animation.addByIndices('danceRight', 'BF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		bfDance.antialiasing = ClientPrefs.globalAntialiasing;
+		add(bfDance);
 
 		logoBl = new FlxSprite(-25, 0);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
@@ -291,12 +291,12 @@ class TitleState extends MusicBeatState
 		if(logoBl != null)
 			logoBl.animation.play('bump', true);
 
-		if(gfDance != null) {
+		if(bfDance != null) {
 			danceLeft = !danceLeft;
 			if (danceLeft)
-				gfDance.animation.play('danceRight');
+				bfDance.animation.play('danceRight');
 			else
-				gfDance.animation.play('danceLeft');
+				bfDance.animation.play('danceLeft');
 		}
 
 		if(!closedState) {

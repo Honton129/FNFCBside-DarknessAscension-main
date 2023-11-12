@@ -1,18 +1,18 @@
 {
 	"songs": [
-		["Deception", "senpai", [148, 22, 83]],
-		["Test", "senpai", [148, 22, 83]],
-		["Test", "senpai", [148, 22, 83]]
+		["Matricidal", "mom", [148, 22, 83]],
+		["Blue-Moon", "mom", [148, 22, 83]],
+		["Test", "bf", [148, 22, 83]]
 	],
 
 	"weekCharacters": [
-		"senpai",
+		"mom",
 		"bf",
 		"gf"
 	],
-	"weekBackground": "school",
+	"weekBackground": "limo",
 
-	"storyName": "trace('senpai.kill();')",
+	"storyName": "Schizophrenia Episode.",
 	"weekBefore": "week3",
 	"weekName": "Week 4",
 	"startUnlocked": true,

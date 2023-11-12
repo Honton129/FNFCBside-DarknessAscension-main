@@ -12,11 +12,11 @@
 	],
 	"weekBackground": "halloween",
 
-	"storyName": "Niños",
+	"storyName": "The Last Spooky Month.",
 	"weekBefore": "week1",
 	"weekName": "Week 2",
 	"startUnlocked": true,
-        "difficulties": "hard",
+    "difficulties": "hard",
 
 	"hideStoryMode": false,
 	"hideFreeplay": false

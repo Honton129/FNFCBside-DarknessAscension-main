@@ -12,11 +12,11 @@
 	],
 	"weekBackground": "philly",
 
-	"storyName": "On My Way",
+	"storyName": "Join the Darkness.",
 	"weekBefore": "tutorial",
 	"weekName": "Week 1",
 	"startUnlocked": true,
-        "difficulties": "hard",
+    "difficulties": "hard",
 
 	"hideStoryMode": false,
 	"hideFreeplay": false
