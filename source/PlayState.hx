@@ -627,7 +627,7 @@ class PlayState extends MusicBeatState
 				pogaCorrupted.alpha = 0.0001;
 				pogaCorrupted.setGraphicSize(Std.int(pogaCorrupted.width * 1.5));
 
-			case 'limo': //Week 4
+			case 'limo': //Week 4 -- ???
 				var skyBG:BGSprite = new BGSprite('street/sky', -300, -500, 0.1, 0.1);
 				skyBG.setGraphicSize(Std.int(skyBG.width * 1.2));
 				skyBG.updateHitbox();
@@ -647,7 +647,10 @@ class PlayState extends MusicBeatState
 				street.updateHitbox();
 				add(street);
 
-			case 'mall': //Week 5 - Cocoa, Eggnog
+				var limo:BGSprite = new BGSprite('street/limoStand', -120, -50, 1, 1);
+				add(limo);
+
+			case 'mall': //Week 5 -- Cocoa, Eggnog
 				var bg:BGSprite = new BGSprite('christmas/bgWalls', -1000, -500, 0.2, 0.2);
 				bg.setGraphicSize(Std.int(bg.width * 0.8));
 				bg.updateHitbox();
@@ -681,7 +684,7 @@ class PlayState extends MusicBeatState
 				add(santa);
 				precacheList.set('Lights_Shut_off', 'sound');
 
-			case 'mallEvil': //Week 5 - Winter Horrorland
+			case 'mallEvil': //Week 5 -- Winter Horrorland
 				var bg:BGSprite = new BGSprite('christmas/evilBG', -400, -500, 0.2, 0.2);
 				bg.setGraphicSize(Std.int(bg.width * 0.8));
 				bg.updateHitbox();
@@ -693,7 +696,7 @@ class PlayState extends MusicBeatState
 				var evilSnow:BGSprite = new BGSprite('christmas/evilSnow', -200, 700);
 				add(evilSnow);
 
-			case 'school': //Week 6 - Senpai, Roses
+			case 'school': //Week 6 -- Senpai, Roses
 				GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pixel';
 				GameOverSubstate.loopSoundName = 'gameOver-pixel';
 				GameOverSubstate.endSoundName = 'gameOverEnd-pixel';
@@ -757,7 +760,7 @@ class PlayState extends MusicBeatState
 					add(bgGirls);
 				}
 
-			case 'schoolEvil': //Week 6 - Thorns
+			case 'schoolEvil': //Week 6 -- Thorns
 				GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pixel';
 				GameOverSubstate.loopSoundName = 'gameOver-pixel';
 				GameOverSubstate.endSoundName = 'gameOverEnd-pixel';
