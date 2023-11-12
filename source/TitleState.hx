@@ -119,7 +119,7 @@ class TitleState extends MusicBeatState
 		logoBl = new FlxSprite(-15, -25);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.setGraphicSize(Std.int(logoBl.width * 0.75));
+		logoBl.setGraphicSize(Std.int(logoBl.width * 0.85));
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
@@ -132,7 +132,7 @@ class TitleState extends MusicBeatState
 		bfDance.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bfDance);
 
-		titleText = new FlxSprite(125, 600);
+		titleText = new FlxSprite(200, 450);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		var animFrames:Array<FlxFrame> = [];
 		@:privateAccess {

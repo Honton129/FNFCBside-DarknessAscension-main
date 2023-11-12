@@ -3,12 +3,12 @@
 	<!-- Created with Adobe Animate version 21.0.0.35450 -->
 	<!-- http://www.adobe.com/products/animate.html -->
 	<SubTexture name="credits basic0000" x="10" y="10" width="336" height="72"/>
-	<SubTexture name="credits white0000" x="356" y="10" width="440" height="101" frameX="-31" frameY="0" frameWidth="502" frameHeight="101"/>
-	<SubTexture name="credits white0001" x="10" y="121" width="452" height="101" frameX="-25" frameY="0" frameWidth="502" frameHeight="101"/>
-	<SubTexture name="credits white0002" x="472" y="121" width="464" height="101" frameX="-19" frameY="0" frameWidth="502" frameHeight="101"/>
-	<SubTexture name="credits white0003" x="10" y="232" width="482" height="101" frameX="-10" frameY="0" frameWidth="502" frameHeight="101"/>
-	<SubTexture name="credits white0004" x="502" y="232" width="502" height="101"/>
-	<SubTexture name="credits white0005" x="10" y="343" width="482" height="101" frameX="-10" frameY="0" frameWidth="502" frameHeight="101"/>
-	<SubTexture name="credits white0006" x="472" y="121" width="464" height="101" frameX="-19" frameY="0" frameWidth="502" frameHeight="101"/>
-	<SubTexture name="credits white0007" x="472" y="121" width="464" height="101" frameX="-19" frameY="0" frameWidth="502" frameHeight="101"/>
+	<SubTexture name="credits white0000" x="10" y="92" width="336" height="72"/>
+	<SubTexture name="credits white0001" x="10" y="92" width="336" height="72"/>
+	<SubTexture name="credits white0002" x="10" y="92" width="336" height="72"/>
+	<SubTexture name="credits white0003" x="10" y="92" width="336" height="72"/>
+	<SubTexture name="credits white0004" x="10" y="92" width="336" height="72"/>
+	<SubTexture name="credits white0005" x="10" y="92" width="336" height="72"/>
+	<SubTexture name="credits white0006" x="10" y="92" width="336" height="72"/>
+	<SubTexture name="credits white0007" x="10" y="92" width="336" height="72"/>
 </TextureAtlas>

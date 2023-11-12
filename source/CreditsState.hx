@@ -24,8 +24,6 @@ class CreditsState extends MusicBeatState
 
 	var bg:FlxSprite;
 	var descText:FlxText;
-	var intendedColor:Int;
-	var colorTween:FlxTween;
 	var descBox:AttachedSprite;
 
 	var offsetThing:Float = -75;
@@ -38,6 +36,7 @@ class CreditsState extends MusicBeatState
 		#end
 
 		persistentUpdate = true;
+
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		add(bg);
 		bg.screenCenter();
@@ -74,29 +73,61 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var pisspoop:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+			["FNFC Darkness Ascension"],
+			['Dasklp',			    'dasklp',		    "-Artist\n-Pico Redesign Helper!\n-Mom Week Background!",                                              'https://www.youtube.com/@dasklp5029'],
+			['yupod',			    'yupoto',		    "-Artist\n-Pico Redesign Creator!\n-Background Sprites!\n", 	                                       'https://www.youtube.com/@yupoto'],
+     	 	['Honton129',		    'honton',	        "-Mod Director\n-Coder\n-Lead Artist\n-Charter",                                                       'https://twitter.com/honton129'],
+			['Poga',			    'poga',		        "-Artist\n-Pico Redesign Helper\n-Musician\n-Game Over Theme\n-Main Menu Theme Remix!",                'https://www.youtube.com/@Poga_2000'],
+			['arbolman',			'arbol',		    "-Artist\n-Mom Design Concept", 	                                                                   'https://www.youtube.com/@soul2709'],
+			['Mountainboy',			'mountain',	        "-Icon Artist\n-Pico Week Backgrouds",	                                                               'https://twitter.com/Davedcho19'],
+			['veku',	            'veku',		        "-Made the Corrupted Arcade Assets\n(TYSM!)",	                                                       'https://www.youtube.com/@im-veku'],
+			['Benkamyn',	        'benka',		    "-Musician\n-Broken Melancholy Song!\n-Dead Pixel B-SIDE Remix!",                                      'https://www.youtube.com/@Ben-Kamyn'],
+    	  	[''],
+			["Helpers And Colaborators"],
+			['HELPERS AQUI',	    '',		            "",	                                                                                                   ''],
+			[''],
+			[''],
+			["B-Side Redux Crew"],
+    		['Rozebud',		        'rozebud',	        "-Music, Charting And Art\nOf B-SIDE Redux\n-The Chart Editor dudes",		                           'https://twitter.com/helpme_thebigt'],
+    		['JADS',		        'jads',          	"-Music And Charting\nOf B-SIDE Redux",					                                               'https://twitter.com/Aw3somejds'],
+		    ['Cval',		        'cval',	          	"-Additional Art And Charting\nOf B-SIDE Redux",		                                               'https://twitter.com/cval_brown'],
+			['elikapika',           'elika',	        "-Additional Art\nOf B-SIDE Redux",		                                                               'https://twitter.com/elikapika'],
+			['fluffyhairs',	        'fluffyhairs',		"-Music\nOf B-SIDE Redux",		                                                                       'https://twitter.com/fluffyhairslol'],
+			[''],
+			[''],
+		    ["Corruption Mod Team"],
+		    ['PhantomFear',		    'phantomfear',	    "-Creator/Director\n-Lead Artist\n-Coder\n-Story",			                                           'https://twitter.com/PhantomFearOP'],
+		    ['PincerProd',	    	'pincerprod',	    "-Roots +\nTreacherous Thorns\nBackground Art\n-Threacherous Throns\nChart",			               'https://twitter.com/PincerProd'],
+		    ['RenRenNumberTen',	    'ren',			    "-Musician\n-Spookeez-Remix",				                                                           'https://www.youtube.com/@RenRenNumberTen'],
+		    ['DatDavi',			    'datdavi',			"-Musician\n-Senpai Remix\n-Treacherous Thorns",                                                       'https://twitter.com/dat_davi'],
+		    ['SimplyCrispy',		'simplycrispy',		"-Musician\n-Matricidal\n-MILK\n-Schizophrenzy",				                                       'https://twitter.com/BreakfastsBest'],
+		    ['fluffyhairs',		    'fluffyhairs',		"-Musician\n-Sanguine South\n-Chiller\n-Story Menu Music",		                                       'https://twitter.com/fluffyhairslol'],
+	    	['SasterSuboru',		'saster',		    "-Musician\n-Tormentor\n-Neuroses\n-Discharge\n-Estranged Instrumental",                               'https://twitter.com/sub0ru'],
+	    	[''],
+			[''],
 			['Psych Engine Team'],
-			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
-			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/RiverOaken',		'B42F71'],
-			['shubs',				'shubs',			'Additional Programmer of Psych Engine',						'https://twitter.com/yoshubs',			'5E99DF'],
+			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								                                       'https://twitter.com/Shadow_Mario_'],
+			['RiverOaken',			'river',			'Main Artist/Animator of Psych Engine',							                                       'https://twitter.com/RiverOaken'],
+			['shubs',				'shubs',			'Additional Programmer of Psych Engine',						                                       'https://twitter.com/yoshubs'],
 			[''],
 			['Former Engine Members'],
-			['bb-panzu',			'bb',				'Ex-Programmer of Psych Engine',								'https://twitter.com/bbsub3',			'3E813A'],
+			['bb-panzu',			'bb',				'Ex-Programmer of Psych Engine',								                                       'https://twitter.com/bbsub3'],
 			[''],
 			['Engine Contributors'],
-			['iFlicky',				'flicky',			'Composer of Psync and Tea Time\nMade the Dialogue Sounds',		'https://twitter.com/flicky_i',			'9E29CF'],
-			['SqirraRNG',			'sqirra',			'Crash Handler and Base code for\nChart Editor\'s Waveform',	'https://twitter.com/gedehari',			'E1843A'],
-			['EliteMasterEric',		'mastereric',		'Runtime Shaders support',										'https://twitter.com/EliteMasterEric',	'FFBD40'],
-			['PolybiusProxy',		'proxy',			'.MP4 Video Loader Library (hxCodec)',							'https://twitter.com/polybiusproxy',	'DCD294'],
-			['KadeDev',				'kade',				'Fixed some cool stuff on Chart Editor\nand other PRs',			'https://twitter.com/kade0912',			'64A250'],
-			['Keoiki',				'keoiki',			'Note Splash Animations',										'https://twitter.com/Keoiki_',			'D2D2D2'],
-			['Nebula the Zorua',	'nebula',			'LUA JIT Fork and some Lua reworks',							'https://twitter.com/Nebula_Zorua',		'7D40B2'],
-			['Smokey',				'smokey',			'Sprite Atlas Support',											'https://twitter.com/Smokey_5_',		'483D92'],
+			['iFlicky',				'flicky',			'Composer of Psync and Tea Time\nMade the Dialogue Sounds',		                                       'https://twitter.com/flicky_i'],
+			['SqirraRNG',			'sqirra',			'Crash Handler and Base code for\nChart Editor\'s Waveform',	                                       'https://twitter.com/gedehari'],
+			['EliteMasterEric',		'mastereric',		'Runtime Shaders support',										                                       'https://twitter.com/EliteMasterEric'],
+			['PolybiusProxy',		'proxy',			'.MP4 Video Loader Library (hxCodec)',							                                       'https://twitter.com/polybiusproxy'],
+			['KadeDev',				'kade',				'Fixed some cool stuff on Chart Editor\nand other PRs',			                                       'https://twitter.com/kade0912'],
+			['Keoiki',				'keoiki',			'Note Splash Animations',										                                       'https://twitter.com/Keoiki_'],
+			['Nebula the Zorua',	'nebula',			'LUA JIT Fork and some Lua reworks',							                                       'https://twitter.com/Nebula_Zorua'],
+			['Smokey',				'smokey',			'Sprite Atlas Support',											                                       'https://twitter.com/Smokey_5_'],
 			[''],
 			["Funkin' Crew"],
-			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'",							'https://twitter.com/ninja_muffin99',	'CF2D2D'],
-			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',	'FADC45'],
-			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								'https://twitter.com/evilsk8r',			'5ABD4B'],
-			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7']
+			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'",							                                       'https://twitter.com/ninja_muffin99'],
+			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								                                       'https://twitter.com/PhantomArcade3K'],
+			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								                                       'https://twitter.com/evilsk8r'],
+			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								                                       'https://twitter.com/kawaisprite']
 		];
 		
 		for(i in pisspoop){
@@ -147,8 +178,6 @@ class CreditsState extends MusicBeatState
 		descBox.sprTracker = descText;
 		add(descText);
 
-		bg.color = getCurrentBGColor();
-		intendedColor = bg.color;
 		changeSelection();
 		super.create();
 	}
@@ -201,9 +230,6 @@ class CreditsState extends MusicBeatState
 			}
 			if (controls.BACK)
 			{
-				if(colorTween != null) {
-					colorTween.cancel();
-				}
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
 				quitting = true;
@@ -241,19 +267,6 @@ class CreditsState extends MusicBeatState
 			if (curSelected >= creditsStuff.length)
 				curSelected = 0;
 		} while(unselectableCheck(curSelected));
-
-		var newColor:Int =  getCurrentBGColor();
-		if(newColor != intendedColor) {
-			if(colorTween != null) {
-				colorTween.cancel();
-			}
-			intendedColor = newColor;
-			colorTween = FlxTween.color(bg, 1, bg.color, intendedColor, {
-				onComplete: function(twn:FlxTween) {
-					colorTween = null;
-				}
-			});
-		}
 
 		var bullShit:Int = 0;
 
@@ -304,14 +317,6 @@ class CreditsState extends MusicBeatState
 		modsAdded.push(folder);
 	}
 	#end
-
-	function getCurrentBGColor() {
-		var bgColor:String = creditsStuff[curSelected][4];
-		if(!bgColor.startsWith('0x')) {
-			bgColor = '0xFF' + bgColor;
-		}
-		return Std.parseInt(bgColor);
-	}
 
 	private function unselectableCheck(num:Int):Bool {
 		return creditsStuff[num].length <= 1;
