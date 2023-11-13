@@ -57,12 +57,12 @@
 		}
 	],
 	"no_antialiasing": true,
-	"image": "characters/week4/senpai",
+	"image": "characters/week3/senpai",
 	"position": [
 		150,
 		360
 	],
-	"healthicon": "senpai-pixel",
+	"healthicon": "senpai",
 	"flip_x": false,
 	"healthbar_colors": [
 		255,
@@ -74,5 +74,5 @@
 		-330
 	],
 	"sing_duration": 4,
-	"scale": 6
+	"scale": 6.8
 }
