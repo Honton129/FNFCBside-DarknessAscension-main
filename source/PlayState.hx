@@ -647,7 +647,7 @@ class PlayState extends MusicBeatState
 				street.updateHitbox();
 				add(street);
 
-				var limo:BGSprite = new BGSprite('street/limoStand', -120, -50, 1, 1);
+				var limo:BGSprite = new BGSprite('street/limoStand', -120, -285, 1, 1);
 				add(limo);
 
 			case 'mall': //Week 5 -- Cocoa, Eggnog

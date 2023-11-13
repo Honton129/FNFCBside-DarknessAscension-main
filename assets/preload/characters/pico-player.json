@@ -57,9 +57,9 @@
 		}
 	],
 	"no_antialiasing": false,
-	"image": "characters/week1/Pico_FNF_assetss",
+	"image": "characters/week4/picocb1",
 	"position": [
-		0,
+		50,
 		300
 	],
 	"healthicon": "cpico",
