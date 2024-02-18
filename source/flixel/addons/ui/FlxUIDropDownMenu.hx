@@ -4,11 +4,9 @@ import flash.geom.Rectangle;
 import flixel.addons.ui.interfaces.IFlxUIClickable;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import flixel.addons.ui.interfaces.IHasParams;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.math.FlxMath;
+
 import flixel.ui.FlxButton;
-import flixel.util.FlxColor;
+
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxStringUtil;
 import flixel.addons.ui.FlxUIGroup;
@@ -19,7 +17,25 @@ import flixel.addons.ui.FlxUI9SliceSprite;
 import flixel.addons.ui.FlxUIAssets;
 import flixel.addons.ui.StrNameLabel;
 import flixel.addons.ui.FlxUI;
+import flixel.util.FlxColor;
 
+
+/*
+
+THIS IS AN EDIT OF FlxUIDropDownMenu I'VE MADE BECAUSE I'M TIRED OF IT NOT SUPPORTING SCROLLING UP/DOWN
+BAH!
+
+The differences are the following:
+* Support to scrolling up/down with mouse wheel or arrow keys
+* THe default drop direction is "Down" instead of "Automatic"
+
+*/
+
+
+
+/**
+ * @author larsiusprime
+ */
 class FlxUIDropDownMenu extends FlxUIGroup implements IFlxUIWidget implements IFlxUIClickable implements IHasParams
 {
 	public var skipButtonUpdate(default, set):Bool;
@@ -431,24 +447,12 @@ class FlxUIDropDownMenu extends FlxUIGroup implements IFlxUIWidget implements IF
 				}
 			}
 
-			if (FlxG.mouse.justPressed && !mouseOverlapping())
+			if (FlxG.mouse.justPressed && !FlxG.mouse.overlaps(this,camera))
 			{
 				showList(false);
 			}
 		}
 		#end
-	}
-
-	function mouseOverlapping()
-	{
-		var mousePoint = FlxG.mouse.getScreenPosition(camera);
-		var objPoint = this.getScreenPosition(null, camera);
-		if(mousePoint.x >= objPoint.x && mousePoint.y >= objPoint.y &&
-			mousePoint.x < objPoint.x + this.width && mousePoint.y < objPoint.y + this.height)
-		{
-			return true;
-		}
-		return false;
 	}
 
 	override public function destroy():Void

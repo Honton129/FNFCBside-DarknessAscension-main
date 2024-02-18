@@ -6,10 +6,8 @@
 --The Muxi "Overlay" / Filter Lua made by Honton129 with the assets of Muxi
 --Song Credits Text Lua Originaly made by omotashi, legole0, Piggyfriend1792 and DEAD SKULLXX on GameBanana
 --Particles Lua Originaly made by IDK
---Boopy Icons! (Dave and Bambi Icon Animation) Lua Originaly made by Abra David On GameBanana And Modified by Honton129
 --Vcr Shader Was took from a shader pack made by deleted_name687 on GameBanana
 --Chromatic Abberation Shader Lua was made by VargyBoy and the frag file was took from Vs. Impostor V4 and Modified by Honton129
---Cool Health Bar Lua Was Originaly made by RALTYRO for the Mic'd Up HUD Lua
 
 --[Song Credits Configuration]--
 local songdata = {
@@ -251,20 +249,6 @@ function shaderCoordFix()
     end
 end
 
---[Icon Boopy!!]--
-local turnvalue = 20
-function onBeatHit()
-    turnvalue = 20
-if curBeat % 2 == 0 then
-    turnvalue = -20
-end
-    setProperty('iconP2.angle',-turnvalue)
-    setProperty('iconP1.angle',turnvalue)
-
-    doTweenAngle('iconTween1','iconP1',0,crochet/1000,'circOut')
-    doTweenAngle('iconTween2','iconP2',0,crochet/1000,'circOut')
-end
-
 function onCreatePost()
     --[Song Credits Lua Assets]--
     --This creates all the placeholder shit B) ((THIS PART ON THE ORIGINAL SCRIPT WAS MADE BY PIGGY))
@@ -303,15 +287,6 @@ function onCreatePost()
     -- If you dont NOT want the art and charter credits (or a mix of two), the value used in the old version is:
     -- offsetY+25 for creditTitle
     -- offsetY+80 for the other credit (be it Composer, Charting, or Art)
-
-    --[Icon Boopy Create Post]--
-      setObjectOrder('iconP1',getObjectOrder('iconP2'))
-
-    --[Cool Health Bar Assets]--
-    loadGraphic("healthBarBG", "enginestuff/coolhealthborder")
-    setProperty("healthBarBG.yAdd", -27)
-    setProperty("healthBarBG.xAdd", -54)
-    setObjectCamera("healthBarBG", "hud")
 
     setProperty('scoreTxt.visible', false) --bye bye score for now
 end

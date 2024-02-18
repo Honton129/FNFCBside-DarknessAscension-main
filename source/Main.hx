@@ -1,21 +1,22 @@
 package;
 
 import flixel.FlxGame;
+import haxe.io.Path;
 import openfl.Lib;
-import openfl.display.FPS;
+import debug.FPSCounter;
 import openfl.display.Sprite;
-import flixel.FlxG;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
-import lime.app.Application;
+
+#if linux
+import lime.graphics.Image;
+#end
 
 //crash handler stuff
 #if CRASH_HANDLER
 import openfl.events.UncaughtErrorEvent;
 import haxe.CallStack;
 import haxe.io.Path;
-import sys.FileSystem;
-import sys.io.File;
 #end
 
 class Main extends Sprite
@@ -23,14 +24,16 @@ class Main extends Sprite
 	var game = {
 		width: 1280, // WINDOW width
 		height: 720, // WINDOW height
-		initialState: TitleState, // initial game state
+		initialState: states.WarningState, // initial game state
 		zoom: -1.0, // game state bounds
 		framerate: 60, // default framerate
 		skipSplash: true, // if the default flixel splash screen should be skipped
 		startFullscreen: false // if the game should start at fullscreen mode
 	};
 
-	public static var fpsVar:FPS;
+	public static var fpsVar:FPSCounter;
+
+	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function main():Void
 	{
@@ -75,38 +78,56 @@ class Main extends Sprite
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 	
+		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
+		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
 		#if !mobile
-		fpsVar = new FPS(10, 3, 0xFFFFFF);
+		fpsVar = new FPSCounter(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		if(fpsVar != null) {
-			fpsVar.visible = ClientPrefs.showFPS;
+			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
 		#end
 
-		#if html5
-		FlxG.autoPause = false;
-		FlxG.mouse.visible = false;
-		#elseif desktop
-		FlxG.mouse.visible = false;
+		#if linux
+		var icon = Image.fromFile("icon.png");
+		Lib.current.stage.window.setIcon(icon);
 		#end
+
+		FlxG.mouse.visible = false;
 		
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 		#end
 
-		#if desktop
-		if (!DiscordClient.isInitialized) {
-			DiscordClient.initialize();
-			Application.current.window.onClose.add(function() {
-				DiscordClient.shutdown();
-			});
-		}
+		#if DISCORD_ALLOWED
+		DiscordClient.prepare();
 		#end
+
+		// shader coords fix
+		FlxG.signals.gameResized.add(function (w, h) {
+		     if (FlxG.cameras != null) {
+			   for (cam in FlxG.cameras.list) {
+				@:privateAccess
+				if (cam != null && cam._filters != null)
+					resetSpriteCache(cam.flashSprite);
+			   }
+		     }
+
+		     if (FlxG.game != null)
+			 resetSpriteCache(FlxG.game);
+		});
+	}
+
+	static function resetSpriteCache(sprite:Sprite):Void {
+		@:privateAccess {
+		        sprite.__cacheBitmap = null;
+			sprite.__cacheBitmapData = null;
+		}
 	}
 
 	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
@@ -122,7 +143,7 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = "./crash/" + "PsychEngine_" + dateNow + ".txt";
+		path = "./crash/" + Application.current.meta.get('file') + '_' + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -146,7 +167,9 @@ class Main extends Sprite
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		Application.current.window.alert(errMsg, "Error!");
+		#if DISCORD_ALLOWED
 		DiscordClient.shutdown();
+		#end
 		Sys.exit(1);
 	}
 	#end

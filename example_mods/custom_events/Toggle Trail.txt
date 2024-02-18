@@ -1,5 +1,0 @@
-Value 1: activa el efecto en Dad (opponent)
-Value 2: activa el efecto en bf (player)
-
-dejar el value a 1 activara el efecto
-dejar el value a 0 o en blanco lo desactiva

@@ -1,22 +1,27 @@
 package options;
 
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.group.FlxGroup.FlxTypedGroup;
-
-import Controls;
+import flixel.addons.effects.chainable.FlxGlitchEffect;
+import flixel.addons.effects.chainable.FlxEffectSprite;
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Note Colors', 'Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
-	private var grpOptions:FlxTypedGroup<Alphabet>;
+	public static var options:Array<String> = ['Controls', 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay', 'Others'];
+	
+	private var grpOptions:FlxTypedGroup<FlxText>;
 	private static var curSelected:Int = 0;
+
 	public static var menuBG:FlxSprite;
+	public static var onPlayState:Bool = false;
+
+	private var descText:FlxText;
+	var optionText:FlxText;
+
+	//glitch effect stuff
+	public static var glitchShader:FlxGlitchEffect;
+	public static var effectBF:FlxEffectSprite;
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
-			case 'Note Colors':
-				openSubState(new options.NotesSubState());
 			case 'Controls':
 				openSubState(new options.ControlsSubState());
 			case 'Graphics':
@@ -27,6 +32,8 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.GameplaySettingsSubState());
 			case 'Adjust Delay and Combo':
 				LoadingState.loadAndSwitchState(new options.NoteOffsetState());
+			case 'Others':
+				openSubState(new options.OtherSettingsSubState());				
 		}
 	}
 
@@ -34,33 +41,57 @@ class OptionsState extends MusicBeatState
 	var selectorRight:Alphabet;
 
 	override function create() {
-		#if desktop
-		DiscordClient.changePresence("Options Menu", null);
+		#if DISCORD_ALLOWED
+		DiscordClient.changePresence("In The Options Menu", 'Selecting a Category');
 		#end
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.color = 0xFFea71fd;
-		bg.updateHitbox();
+		FlxG.camera.fade(0xFF000000, 3.5, true);
 
-		bg.screenCenter();
-		bg.antialiasing = ClientPrefs.globalAntialiasing;
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/optionsMenu/optionsBack'));
+		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
 
-		grpOptions = new FlxTypedGroup<Alphabet>();
-		add(grpOptions);
-
-		for (i in 0...options.length)
+		if(!ClientPrefs.data.lowQuality)
 		{
-			var optionText:Alphabet = new Alphabet(0, 0, options[i], true);
-			optionText.screenCenter();
-			optionText.y += (100 * (i - (options.length / 2))) + 50;
-			grpOptions.add(optionText);
+			var glitchBF:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/optionsMenu/optionsGlitch'));
+			glitchBF.antialiasing = false;
+			glitchShader = new FlxGlitchEffect(5, 10, 0.1, FlxGlitchDirection.HORIZONTAL);
+			effectBF = new FlxEffectSprite (glitchBF, [glitchShader]);
+			add(glitchBF);
+			add(effectBF);
+		}
+		else
+		{
+			var glitchBF:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/optionsMenu/optionsGlitch'));
+			glitchBF.antialiasing = false;
+			add(glitchBF);
 		}
 
-		selectorLeft = new Alphabet(0, 0, '>', true);
-		add(selectorLeft);
-		selectorRight = new Alphabet(0, 0, '<', true);
-		add(selectorRight);
+		grpOptions = new FlxTypedGroup<FlxText>();
+		add(grpOptions);
+
+		for (i in 0...options.length) //i love you chatgpt, thanks for fix the code lmao <3
+		{
+			var posY:Float = i * 50 + 200;
+			optionText = new FlxText(100, posY, options[i], 32, true);
+			optionText.setFormat(Paths.font("pixel.otf"), 35, 0xFF16FF00, FlxTextAlign.LEFT);
+			optionText.borderSize = 3;
+			optionText.borderQuality = 1;
+			optionText.scrollFactor.set();
+			grpOptions.add(optionText);
+		}			
+
+		var bgFront:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/optionsMenu/optionsFront'));
+		bgFront.antialiasing = ClientPrefs.data.antialiasing;
+		add(bgFront);
+
+		descText = new FlxText(50, 800, 1180, "Please Select a Category.", 32);
+		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		descText.scrollFactor.set();
+		descText.borderSize = 2.4;
+		descText.screenCenter(Y);
+		descText.y += 270;
+		add(descText);
 
 		changeSelection();
 		ClientPrefs.saveSettings();
@@ -84,12 +115,23 @@ class OptionsState extends MusicBeatState
 		}
 
 		if (controls.BACK) {
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
-		}
+			if(!ClientPrefs.data.lowQuality) glitchShader.active = false;
 
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			if(onPlayState)
+			{
+				StageData.loadDirectory(PlayState.SONG);
+				LoadingState.loadAndSwitchState(new PlayState());
+				FlxG.sound.music.volume = 0;
+			}
+			else MusicBeatState.switchState(new states.MainMenuState());
+		}
+		
 		if (controls.ACCEPT) {
-			openSelectedSubstate(options[curSelected]);
+			openSelectedSubstate(options[curSelected]); 
+			if(!ClientPrefs.data.lowQuality) {
+				glitchShader.active = false; //lag fix i think
+			}
 		}
 	}
 	
@@ -100,21 +142,19 @@ class OptionsState extends MusicBeatState
 		if (curSelected >= options.length)
 			curSelected = 0;
 
-		var bullShit:Int = 0;
-
-		for (item in grpOptions.members) {
-			item.targetY = bullShit - curSelected;
-			bullShit++;
-
-			item.alpha = 0.6;
-			if (item.targetY == 0) {
-				item.alpha = 1;
-				selectorLeft.x = item.x - 63;
-				selectorLeft.y = item.y;
-				selectorRight.x = item.x + item.width + 15;
-				selectorRight.y = item.y;
-			}
+		// I wanna die!!!
+		for (i in grpOptions.members) {
+			if (grpOptions.members[curSelected].text != i.text)
+				i.alpha = 0.35;
+			else
+				i.alpha = 1;
 		}
 		FlxG.sound.play(Paths.sound('scrollMenu'));
+	}
+
+	override function destroy()
+	{
+		ClientPrefs.loadPrefs();
+		super.destroy();
 	}
 }
