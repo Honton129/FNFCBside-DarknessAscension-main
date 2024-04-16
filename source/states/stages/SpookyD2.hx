@@ -26,8 +26,8 @@ class SpookyD2 extends BaseStage
 		spookyHouse = new BGSprite('laCasaDelSemenYPorno', 0, 200, 0.95, 0.95);
 		add(spookyHouse);
 
-		vergaChica = new BGSprite('vargi', 1050, 850, 1, 1, ['idle']);
-		vergaChica.setGraphicSize(0.65, 0.65);
+		vergaChica = new BGSprite('vargi', 1050, 650, 1, 1, ['idle']);
+		vergaChica.scale.set(0.65, 0.65);
 		add(vergaChica);
 
 		textoCuliao = new BGSprite('textoJiji');

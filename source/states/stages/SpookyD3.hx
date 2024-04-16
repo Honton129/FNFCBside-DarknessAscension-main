@@ -8,7 +8,8 @@ class SpookyD3 extends BaseStage
 	var spookyHouse:BGSprite;
 
 	var vergaChica:BGSprite;
-	var losMonetizables:BGSprite;
+	var elMonetizable:BGSprite;
+	var monaChina:FlxAnimate;
 	var kloudz:BGSprite;
 
 	var textoCuliao:BGSprite;
@@ -28,16 +29,23 @@ class SpookyD3 extends BaseStage
 		spookyHouse = new BGSprite('laCasaDelSemenYPorno', 0, 200, 0.95, 0.95);
 		add(spookyHouse);
 
-		vergaChica = new BGSprite('vargi', 1050, 850, 1, 1, ['idle']);
-		vergaChica.setGraphicSize(0.65, 0.65);
+		vergaChica = new BGSprite('vargi', 1000, 650, 1, 1, ['idle']);
+		vergaChica.scale.set(0.65, 0.65);
 		add(vergaChica);
 
-		losMonetizables = new BGSprite('dineroDineroAmoElDinero', 450, 675, 1, 1, ['fantasma con mona china']);
-		losMonetizables.setGraphicSize(0.9, 0.9);
-		add(losMonetizables);
+		elMonetizable = new BGSprite('dineroDineroAmoElDinero', 450, 675, 1, 1, ['fantasma']);
+		elMonetizable.scale.set(0.9, 0.9);
+		add(elMonetizable);
+
+		monaChina = new FlxAnimate(1950, 1020);
+		monaChina.showPivot = false;
+		Paths.loadAnimateAtlas(monaChina, 'weonaCuliada');
+		monaChina.anim.addBySymbol('idle', 'Idle', 24, false);
+		monaChina.antialiasing = ClientPrefs.data.antialiasing;
+		add(monaChina);
 
 		kloudz = new BGSprite('kloudzBG', 2000, 875, 1, 1, ['idle']);
-		kloudz.setGraphicSize(0.8, 0.8);
+		kloudz.scale.set(0.8, 0.8);
 		add(kloudz);
 
 		textoCuliao = new BGSprite('textoJiji');
@@ -56,10 +64,7 @@ class SpookyD3 extends BaseStage
 			camGame.alpha = 0.00001;
 			camHUD.alpha = 0.00001;
 
-			game.iconP1.alpha = 0.00001;
-			game.iconP2.alpha = 0.00001;
-			game.healthBar.alpha = 0.00001;
-			game.scoreTxt.alpha = 0.00001;
+			game.healthBarVisible = false;
 
 			spookySky.alpha = 0.00001;
 			spookyFence.alpha = 0.00001;
@@ -67,12 +72,17 @@ class SpookyD3 extends BaseStage
 			spookyHouse.alpha = 0.00001;
 
 			vergaChica.alpha = 0.00001;
-			losMonetizables.alpha = 0.00001;
+			elMonetizable.alpha = 0.00001;
+			monaChina.alpha = 0.00001;
 			kloudz.alpha = 0.00001;
 
 			dad.alpha = 0.00001;
 			boyfriend.alpha = 0.00001;
 			gf.alpha = 0.00001;
+
+			boyfriend.color = FlxColor.BLACK;
+			gf.color = FlxColor.BLACK;
+			dad.color = FlxColor.BLACK;
 		}
 	}
 
@@ -102,10 +112,11 @@ class SpookyD3 extends BaseStage
 
 			if (curBeat == 64)
 			{
-				game.iconP1.alpha = 1;
-				game.iconP2.alpha = 1;
-				game.healthBar.alpha = 1;
-				game.scoreTxt.alpha = 1;
+				boyfriend.color = FlxColor.WHITE;
+				gf.color = FlxColor.WHITE;
+				dad.color = FlxColor.WHITE;
+
+				game.healthBarVisible = true;
 
 				spookySky.alpha = 1;
 				spookyFence.alpha = 1;
@@ -113,7 +124,8 @@ class SpookyD3 extends BaseStage
 				spookyHouse.alpha = 1;
 	
 				vergaChica.alpha = 1;
-				losMonetizables.alpha = 1;
+				elMonetizable.alpha = 1;
+				monaChina.alpha = 1;
 				kloudz.alpha = 1;
 			}
 		}
@@ -124,7 +136,8 @@ class SpookyD3 extends BaseStage
 		if (!ClientPrefs.data.lowQuality && curBeat % game.gfSpeed == 0)
 		{
 			vergaChica.dance(true);
-			losMonetizables.dance(true);
+			elMonetizable.dance(true);
+			monaChina.anim.play('idle', true);
 			kloudz.dance(true);
 		}
 	}

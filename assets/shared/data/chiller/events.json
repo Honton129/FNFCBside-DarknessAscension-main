@@ -2,6 +2,16 @@
 	"song": {
 		"events": [
 			[
+				0,
+				[
+					[
+						"Set Silhouettes",
+						"a",
+						"0.01"
+					]
+				]
+			],
+			[
 				10971.4285714286,
 				[
 					[
@@ -40,11 +50,6 @@
 						"1"
 					],
 					[
-						"Camera Twist",
-						"0.3",
-						"0.8"
-					],
-					[
 						"Add Camera Flash",
 						"",
 						""
@@ -53,6 +58,11 @@
 						"Set Cam Zoom",
 						"0.65",
 						""
+					],
+					[
+						"Set Silhouettes",
+						"b",
+						"0.01"
 					]
 				]
 			],
@@ -123,11 +133,6 @@
 						"Set GF Speed",
 						"2",
 						""
-					],
-					[
-						"Camera Twist",
-						"0",
-						"0"
 					],
 					[
 						"Alter Camera Bop",

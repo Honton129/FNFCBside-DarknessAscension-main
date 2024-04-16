@@ -24,7 +24,7 @@ class PhillyD2 extends BaseStage
 		phillyStreet = new BGSprite('philly2/street', -40, 50);
 		add(phillyStreet);
 
-		mathxMiedoPng = new BGSprite('philly2/el_mathx', 1260, 340, 0.95, 0.95, ['mathx idle']);
+		mathxMiedoPng = new BGSprite('philly2/el_mathx', 960, 340, 0.95, 0.95, ['mathx idle']);
 		mathxMiedoPng.setGraphicSize(Std.int(mathxMiedoPng.width * 0.8));
 		add(mathxMiedoPng);
 

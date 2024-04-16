@@ -13,8 +13,8 @@
 		},
 		{
 			"offsets": [
-				1,
-				-21
+				-12,
+				-26
 			],
 			"loop": false,
 			"anim": "singLEFT",
@@ -24,8 +24,8 @@
 		},
 		{
 			"offsets": [
-				-57,
-				-10
+				-12,
+				-9
 			],
 			"loop": false,
 			"anim": "singRIGHT",
@@ -35,8 +35,8 @@
 		},
 		{
 			"offsets": [
-				1,
-				27
+				-12,
+				37
 			],
 			"loop": false,
 			"anim": "singUP",
@@ -46,8 +46,8 @@
 		},
 		{
 			"offsets": [
-				-30,
-				-90
+				-12,
+				-93
 			],
 			"loop": false,
 			"anim": "singDOWN",
@@ -65,14 +65,15 @@
 	"healthicon": "pico-3",
 	"flip_x": true,
 	"healthbar_colors": [
-		137,
-		120,
-		204
+		57,
+		40,
+		124
 	],
 	"camera_position": [
 		100,
 		50
 	],
 	"sing_duration": 4,
-	"scale": 1
+	"scale": 1,
+	"_editor_isPlayer": false
 }

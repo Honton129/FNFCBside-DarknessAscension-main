@@ -1,85 +1,112 @@
 package backend;
 
-import flixel.util.FlxGradient;
+import shaders.DiamondTransShader;
 
-class CustomFadeTransition extends MusicBeatSubstate {
+class CustomFadeTransition extends MusicBeatSubstate
+{
+    public static var finishCallback:() -> Void;
+    public static var nextCamera:FlxCamera;
+    private var leTween:FlxTween = null;
 
-	public static var finishCallback:Void->Void;
-	private var leTween:FlxTween = null;
-	public static var nextCamera:FlxCamera;
+    var shader:DiamondTransShader;
+    var transBlack:FlxSprite;
+    var rect:FlxSprite;
 
-	var isTransIn:Bool = false;
-	var transBlack:FlxSprite;
-	var transGradient:FlxSprite;
+    var fi:Bool = true;
+    var duration:Float;
 
-	public function new(duration:Float, isTransIn:Bool) {
-		super();
+    public function new(duration:Float = 1.0, isTransIn:Bool = true)
+    {
+        super();
 
-		this.isTransIn = isTransIn;
-		var zoom:Float = FlxMath.bound(FlxG.camera.zoom, 0.05, 1);
-		var width:Int = Std.int(FlxG.width / zoom);
-		var height:Int = Std.int(FlxG.height / zoom);
+        camera = new FlxCamera();
+        camera.bgColor = FlxColor.TRANSPARENT;
 
-		transGradient = FlxGradient.createGradientFlxSprite(1, height, (isTransIn ? [0x0, FlxColor.BLACK] : [FlxColor.BLACK, 0x0]));
-		transGradient.scale.x = width;
-		transGradient.updateHitbox();
-		transGradient.scrollFactor.set();
-		add(transGradient);
+        FlxG.cameras.add(camera, false);
 
-		transBlack = new FlxSprite().makeGraphic(1, height + 400, FlxColor.BLACK);
-		transBlack.scale.x = width;
-		transBlack.updateHitbox();
-		transBlack.scrollFactor.set();
+        this.duration = duration;
+        this.fi = isTransIn;
+
+        shader = new DiamondTransShader();
+
+        shader.progress.value = [0.0];
+        shader.reverse.value = [false];
+
+        rect = new FlxSprite();
+        rect.makeGraphic(1, 1, 0xFF000000);
+        rect.scale.set(1280, 720);
+        rect.origin.set();
+        rect.shader = shader;
+        rect.visible = false;
+        add(rect);
+
+        transBlack = new FlxSprite();
+        transBlack.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		transBlack.origin.set();
+        transBlack.visible = false;
 		add(transBlack);
 
-		transGradient.x -= (width - FlxG.width) / 2;
-		transBlack.x = transGradient.x;
+        if(fi)
+        {
+            fadeIn();
+        }
+        else
+        {
+            fadeOut();
+        }
 
-		if(isTransIn) {
-			transGradient.y = transBlack.y - transBlack.height;
-			FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
-				onComplete: function(twn:FlxTween) {
-					close();
-				},
-			ease: FlxEase.linear});
-		} else {
-			transGradient.y = -transGradient.height;
-			transBlack.y = transGradient.y - transBlack.height + 50;
-			leTween = FlxTween.tween(transGradient, {y: transGradient.height + 50}, duration, {
-				onComplete: function(twn:FlxTween) {
-					if(finishCallback != null) {
-						finishCallback();
-					}
-				},
-			ease: FlxEase.linear});
-		}
-
-		if(nextCamera != null) {
-			transBlack.cameras = [nextCamera];
-			transGradient.cameras = [nextCamera];
+        if(nextCamera != null) {
+			rect.cameras = [nextCamera];
+            transBlack.cameras = [nextCamera];
 		}
 		nextCamera = null;
-	}
 
-	override function update(elapsed:Float) {
-		if(isTransIn) {
-			transBlack.y = transGradient.y + transGradient.height;
-		} else {
-			transBlack.y = transGradient.y - transBlack.height;
-		}
-		super.update(elapsed);
-		if(isTransIn) {
-			transBlack.y = transGradient.y + transGradient.height;
-		} else {
-			transBlack.y = transGradient.y - transBlack.height;
-		}
-	}
+        closeCallback = _closeCallback;
+    }
 
-	override function destroy() {
-		if(leTween != null) {
-			finishCallback();
-			leTween.cancel();
-		}
-		super.destroy();
-	}
+    function __fade(from:Float, to:Float, reverse:Bool)
+    {   
+        rect.visible = true;
+        shader.progress.value = [from];
+        shader.reverse.value = [reverse];
+
+        if(fi)
+        {
+            leTween = FlxTween.num(from, to, duration, {
+                onComplete: function(_) {
+                close();
+            }, ease: FlxEase.linear}, 
+                function(num:Float) {
+                shader.progress.value = [num];
+            });
+        }
+        else 
+        {
+            leTween = FlxTween.num(from, to, duration, {
+                onComplete: function(_) {
+                if(finishCallback != null) {
+                    finishCallback();
+                }
+            }, ease: FlxEase.linear}, 
+                function(num:Float) {
+                shader.progress.value = [num];
+            });
+        }
+    }
+
+    function fadeIn()
+    {
+        __fade(0.0, 1.0, true);
+    }
+
+    function fadeOut()
+    {
+        __fade(0.0, 1.0, false);
+    }
+
+    function _closeCallback()
+    {
+        if (leTween != null)
+            leTween.cancel();
+    }
 }

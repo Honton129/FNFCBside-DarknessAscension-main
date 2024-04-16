@@ -1,5 +1,6 @@
 package states;
 
+import flixel.math.FlxRandom;
 import flixel.FlxSubState;
 import flixel.util.FlxSave;
 import flixel.addons.transition.FlxTransitionableState;
@@ -14,8 +15,10 @@ import openfl.events.KeyboardEvent;
 
 #if !flash 
 import flixel.addons.display.FlxRuntimeShader;
+import openfl.filters.ShaderFilter;
 #end
 
+import shaders.*;
 import objects.cutscenes.DialogueBoxPsych;
 
 class PlayState extends MusicBeatState
@@ -92,6 +95,12 @@ class PlayState extends MusicBeatState
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
 
+	// SHADERS
+	var vcrShader:VCRShader;
+	var chromShader:ChromaticAbberation;
+	var vcrFilter:ShaderFilter;
+	var chromFilter:ShaderFilter;
+
 	public var spawnTime:Float = 2000;
 
 	public var vocals:FlxSound;
@@ -126,6 +135,8 @@ class PlayState extends MusicBeatState
 	public var timeBar:Bar;
 	var songPercent:Float = 0;
 
+	public var healthBarVisible:Bool = true;
+
 	public var ratingsData:Array<Rating> = Rating.loadDefault();
 	public var fullComboFunction:Void->Void = null;
 
@@ -147,6 +158,8 @@ class PlayState extends MusicBeatState
 
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
+
+	public var overlayMuxi:BGSprite;
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
@@ -405,6 +418,11 @@ class PlayState extends MusicBeatState
 		add(comboGroup = new FlxSpriteGroup());
 		add(uiGroup = new FlxSpriteGroup());
 
+		overlayMuxi = new BGSprite('UI/overlay');
+		overlayMuxi.alpha = 0.15;
+		overlayMuxi.blend = ADD;
+		uiGroup.add(overlayMuxi);
+
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
@@ -603,6 +621,20 @@ class PlayState extends MusicBeatState
 		
 		CustomFadeTransition.nextCamera = camOther;
 		if(eventNotes.length < 1) checkEventNote();
+
+		if(ClientPrefs.data.shaders)
+		{
+			vcrShader = new VCRShader();
+			add(vcrShader);
+	
+			chromShader = new ChromaticAbberation();
+			add(chromShader);
+
+			vcrFilter = new ShaderFilter(vcrShader.shader);
+			chromFilter = new ShaderFilter(chromShader.shader);
+
+			camGame.filters = [vcrFilter, chromFilter];
+		}
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1542,6 +1574,12 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		if(ClientPrefs.data.shaders)
+		{
+			vcrShader.iTime += elapsed * playbackRate;
+			chromShader.iTime = 0.003 * playbackRate;
+		}
+
 		if(!inCutscene && !paused && !freezeCamera) {
 			FlxG.camera.followLerp = 0.04 * cameraSpeed * playbackRate;
 		}
@@ -1549,6 +1587,30 @@ class PlayState extends MusicBeatState
 		callOnScripts('onUpdate', [elapsed]);
 
 		super.update(elapsed);
+
+		if(!healthBarVisible)
+		{
+			iconP1.alpha = 0.00001;
+			iconP2.alpha = 0.00001;
+			healthBar.alpha = 0.00001;
+			scoreTxt.alpha = 0.00001;
+		}
+		else
+		{
+			if (ClientPrefs.data.healthBarAlpha != 1)
+			{
+				iconP1.alpha = ClientPrefs.data.healthBarAlpha;
+				iconP2.alpha = ClientPrefs.data.healthBarAlpha;
+				healthBar.alpha = ClientPrefs.data.healthBarAlpha;
+			}
+			else
+			{
+				iconP1.alpha = 1;
+				iconP2.alpha = 1;
+				healthBar.alpha = 1;
+			}
+			scoreTxt.alpha = 1;
+		}
 
 		setOnScripts('curDecStep', curDecStep);
 		setOnScripts('curDecBeat', curDecBeat);
@@ -1568,20 +1630,16 @@ class PlayState extends MusicBeatState
 
 		if(!endingSong && !inCutscene && allowDebugKeys)
 		{
-			if (controls.justPressed('debug_1'))
-				openChartEditor();
-			else if (controls.justPressed('debug_2'))
-				openCharacterEditor();
+			if (controls.justPressed('debug_1')) openChartEditor();
+			else if (controls.justPressed('debug_2')) openCharacterEditor();
 		}
 
-		if (healthBar.bounds.max != null && health > healthBar.bounds.max)
-			health = healthBar.bounds.max;
+		if (healthBar.bounds.max != null && health > healthBar.bounds.max) health = healthBar.bounds.max;
 
 		updateIconsScale(elapsed);
 		updateIconsPosition();
 		
-		if (startedCountdown && !paused)
-			Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
+		if (startedCountdown && !paused) Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
 
 		if (startingSong)
 		{
@@ -1646,9 +1704,9 @@ class PlayState extends MusicBeatState
 		{
 			if(!inCutscene)
 			{
-				if(!cpuControlled) {
+				if(!cpuControlled)
 					keysCheck();
-				} else
+				else
 		    		playerDance();
 
 				if(notes.length > 0)
@@ -2133,8 +2191,8 @@ class PlayState extends MusicBeatState
 	
 				if(flValue1 == 1)
 				{
-					trailDad = new FlxTrail(dad, null, 8, 24, 0.3, 0.069);
-					trailDad.color = FlxColor.PURPLE;
+					trailDad = new FlxTrail(dad, null, 5, 6, 0.6, 0.15);
+					trailDad.color = FlxColor.RED;
 					if(dad.noAntialiasing)
 					{
 						trailDad.antialiasing = false;
@@ -2148,8 +2206,8 @@ class PlayState extends MusicBeatState
 
 				if(flValue2 == 1)
 				{
-					trailBF = new FlxTrail(boyfriend, null, 8, 24, 0.3, 0.069);
-					trailBF.color = FlxColor.RED;
+					trailBF = new FlxTrail(boyfriend, null, 5, 6, 0.6, 0.15);
+					trailBF.color = FlxColor.BLUE;
 					if(boyfriend.noAntialiasing)
 					{
 						trailBF.antialiasing = false;
@@ -2200,6 +2258,26 @@ class PlayState extends MusicBeatState
 			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
 			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
 		}
+	}
+
+	function setParticles() {
+		var currentBeat = (Conductor.songPosition / 500);
+
+		var particle:FlxSprite = new FlxSprite(randomBetween(500, 2000), 1600).loadGraphic(Paths.image('UI/particles'));
+		particle.scale.set(0.5, 0.5);
+		add(particle);
+
+		FlxTween.tween(particle, {x: -900 * Math.sin((currentBeat + 1 * 0.1) * Math.PI)}, 6);
+		FlxTween.tween(particle, {y: -900 * Math.tan((currentBeat + 1 * 0.1) * Math.PI)}, 6);
+
+		new FlxTimer().start(6, function(tmr:FlxTimer)
+		{
+			particle.destroy();
+		});
+	}
+
+	function randomBetween(min, max) {
+    	return Math.random() * (max - min) + min;
 	}
 
 	public function finishSong(?ignoreNoteOffset:Bool = false):Void
@@ -2810,66 +2888,6 @@ class PlayState extends MusicBeatState
 		if (Paths.formatToSongPath(SONG.song) != 'test')
 			camZooming = true;
 
-		if (curSong.toLowerCase() == 'chiller' || curSong.toLowerCase() == 'chiller-v2') 
-		{
-			if (health > 0.2)
-			{
-				if(dad.curCharacter == 'spooky3' || dad.curCharacter == 'spooky3-glow')
-					health -= 0.025;
-			}
-    	}
-
-		if (curSong.toLowerCase() == 'milk')
-		{
-			if (health > 0.2)
-			{
-				if(dad.curCharacter == 'mom2')
-					health -= 0.015;
-			}
-		}
-
-		if (curSong.toLowerCase() == 'schizophrenzy')
-		{
-			if (health > 0.2)
-			{
-				if(dad.curCharacter == 'mom3' || dad.curCharacter == 'mom3-kill2')
-					health -= 0.015;
-				else if(dad.curCharacter == 'mom3-kill')
-					health -= 0.025;
-			}
-		}
-
-		if (curSong.toLowerCase() == 'dead-pixel') 
-		{
-			if (health > 0.2)
-			{
-				if(dad.curCharacter == 'senpai-confused')
-					health -= 0.02;
-				else if(dad.curCharacter == 'senpai-spirit')
-					health -= 0.05;
-			}	
-		}
-
-		if (curSong.toLowerCase() == 'treacherous-thorns') 
-		{
-			if (health > 0.1)
-			{
-				if(dad.curCharacter == 'senpai-mad')
-					health -= 0.03;
-				else if(dad.curCharacter == 'spirit-insane')
-					health -= 0.04;
-			}	
-		}
-
-		if (curSong.toLowerCase() == 'roots') 
-		{
-			if (health > 0.1)
-			{
-				if(dad.curCharacter == 'spirit-insane')
-					health -= 0.04;
-			}	
-		}
-
 		if(note.noteType == 'Hey!' && dad.animOffsets.exists('hey')) {
 			dad.playAnim('hey', true);
 			dad.specialAnim = true;
@@ -3084,6 +3102,8 @@ class PlayState extends MusicBeatState
 		}
 
 		super.stepHit();
+
+		setParticles();
 
 		if(curStep == lastStepHit) {
 			return;

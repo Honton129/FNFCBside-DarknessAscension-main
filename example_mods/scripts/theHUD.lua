@@ -3,11 +3,7 @@
 --[CREDITS DOWN HERE! ! !]--
 
 --Mixed Lua by Honton129
---The Muxi "Overlay" / Filter Lua made by Honton129 with the assets of Muxi
 --Song Credits Text Lua Originaly made by omotashi, legole0, Piggyfriend1792 and DEAD SKULLXX on GameBanana
---Particles Lua Originaly made by IDK
---Vcr Shader Was took from a shader pack made by deleted_name687 on GameBanana
---Chromatic Abberation Shader Lua was made by VargyBoy and the frag file was took from Vs. Impostor V4 and Modified by Honton129
 
 --[Song Credits Configuration]--
 local songdata = {
@@ -137,10 +133,6 @@ local songdata = {
 -- The Next two are just string values, have fun :3
 }
 
---[Shaders Stuff]--
-local shaderName = "vcr with no glitch"
-local shaderName2 = "chromabber"
-
 --[Song Credits Lua Shits]--
 local offsetX = 10
 local offsetY = 500
@@ -155,31 +147,7 @@ function ifExists(table, valuecheck) -- This stupid function stops your game fro
 end
 
 function onCreate()
-      --[Shaders Setup]--
-      shaderCoordFix() -- initialize a fix for textureCoord when resizing game window
-
-      makeLuaSprite(shaderName)
-      makeLuaSprite(shaderName2)
-
-      makeLuaSprite("chromAmountObject")
-
-      runHaxeCode([[
-          var shaderName = "]] .. shaderName .. [[";
-	    var shaderName2 = "]] .. shaderName2 .. [[";
-        
-          game.initLuaShader(shaderName);
-          game.initLuaShader(shaderName2);
-        
-          var shader0 = game.createRuntimeShader(shaderName);
-	    var shader1 = game.createRuntimeShader(shaderName2);
-
-          game.camGame.setFilters([new ShaderFilter(shader0), new ShaderFilter(shader1)]);
-          game.getLuaObject(shaderName).shader = shader0;
-          game.getLuaObject(shaderName2).shader = shader1;
-       return;
-    ]])
-
-      --Song Credits Text Assets
+    --Song Credits Text Assets
 	makeLuaSprite('JukeBoxTag', 'empty', -305-IntroTagWidth, 15)
 	makeGraphic('JukeBoxTag', 300+IntroTagWidth, 100, IntroTagColor)
 	setObjectCamera('JukeBoxTag', 'other')
@@ -201,52 +169,6 @@ function onCreate()
 	setObjectCamera('JukeBoxSubText', 'other')
 	setTextSize('JukeBoxSubText', IntroSubTextSize)
 	addLuaText('JukeBoxSubText')
-
-      --[Cool Health Bar Prechache]--
-      precacheImage("enginestuff/coolhealthborder")
-
-	--[The Muxi "Overlay" / Filter]--
-	makeLuaSprite('filter', 'overlay', 0, 0);
-	setScrollFactor('filter', 1.0, 1.0);
-	setBlendMode('filter', 'add');
-	setProperty('filter.alpha', tonumber(0.13))
-      setObjectCamera('filter', 'camHUD')
-	addLuaSprite('filter', true);
-end
-
---[Shader Functions]
-function onUpdate(elapsed)
-    setShaderFloat(shaderName, "iTime", os.clock())
-    setShaderFloat(shaderName2, "amount", 0.3)
-end
-
-function shaderCoordFix()
-    runHaxeCode([[
-        resetCamCache = function(?spr) {
-            if (spr == null || spr.filters == null) return;
-            spr.__cacheBitmap = null;
-            spr.__cacheBitmapData = null;
-        }
-        
-        fixShaderCoordFix = function(?_) {
-            resetCamCache(game.camGame.flashSprite);
-            resetCamCache(game.camHUD.flashSprite);
-            resetCamCache(game.camOther.flashSprite);
-        }
-    
-        FlxG.signals.gameResized.add(fixShaderCoordFix);
-        fixShaderCoordFix();
-        return;
-    ]])
-    
-    local temp = onDestroy
-    function onDestroy()
-        runHaxeCode([[
-            FlxG.signals.gameResized.remove(fixShaderCoordFix);
-            return;
-        ]])
-        if (temp) then temp() end
-    end
 end
 
 function onCreatePost()
@@ -289,30 +211,6 @@ function onCreatePost()
     -- offsetY+80 for the other credit (be it Composer, Charting, or Art)
 
     setProperty('scoreTxt.visible', false) --bye bye score for now
-end
-
---[Particles Lua]--
-function onStepHit()
-    Particle()
-end
-
-f = 1
-function Particle()
-    songPos = getSongPosition()
-    currentBeat = (songPos/500)
-    f = f + 1
-    sus = math.random(2, 1500)
-    sus2 = math.random(2, 1500)
-    makeLuaSprite('part' .. f, 'particles', math.random(500, 2000), 1600)
-    doTweenY(sus, 'part' .. f, -900*math.tan((currentBeat+1*0.1)*math.pi), 6)
-    doTweenX(sus2, 'part' .. f, -900*math.sin((currentBeat+1*0.1)*math.pi), 6)
-    scaleObject('part' .. f, 0.5, 0.5);
-      
-    addLuaSprite('part' .. f, true)
-  
-    if f >= 50 then
-       f = 1
-    end
 end
 
 --[Song Credits Text Function]--
