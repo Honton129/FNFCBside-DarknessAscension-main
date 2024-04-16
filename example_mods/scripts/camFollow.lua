@@ -2,8 +2,6 @@ xx = nil --540
 yy = nil --550
 xx2 = nil --820
 yy2 = nil --550
-xx3 = nil --670
-yy3 = nil --450
 ofsX = 30
 ofsY = 30
 camFollowEventTriggered = false
@@ -52,16 +50,10 @@ end
 function getCameraPos(char)
     bfJsonArray = getProperty('boyfriend.cameraPosition')
     dadJsonArray = getProperty('dad.cameraPosition')
-    if getProperty('gf.curCharacter') ~= 'gf.curCharacter' then
-        gfJsonArray = getProperty('gf.cameraPosition')
-    end
 
     for i = 1, 2 do
         stageOfs.bf[i] = getProperty('boyfriendCameraOffset')[i]
         stageOfs.dad[i] = getProperty('opponentCameraOffset')[i]
-        if getProperty('gf.curCharacter') ~= 'gf.curCharacter' then
-            stageOfs.gf[i] = getProperty('girlfriendCameraOffset')[i]
-        end
     end
     
     if char == 'bf' or char == 'BF' or char == '0' then
@@ -76,30 +68,16 @@ function getCameraPos(char)
         end
     end
 
-    if char == 'gf' or char == 'GF' or char == '2' then
-        for i = 1, 2 do    
-            if getProperty('gf.curCharacter') ~= 'gf.curCharacter' then
-                charOfs.gf[i] = gfJsonArray[i]
-            end
-        end
-    end
-
     if char == 'all' or char == '' or char == nil then
         for i = 1, 2 do
             charOfs.bf[i] = bfJsonArray[i]
             charOfs.dad[i] = dadJsonArray[i]
-            if getProperty('gf.curCharacter') ~= 'gf.curCharacter' then
-                charOfs.gf[i] = gfJsonArray[i]
-            end
         end
-        
-        
     end
     
     if not lowQuality then
         callOnLuas('onCameraPosGet')
     end
-    
     
     if char == 'all' or char == '' or char == nil then
         setCameraPos('all')
@@ -107,17 +85,11 @@ function getCameraPos(char)
         setCameraPos('BF')
     elseif char == 'dad' or char == 'Dad' or char == '1' then
         setCameraPos('Dad')
-    elseif char == 'gf' or char == 'GF' or char == '2' then
-        if getProperty('gf.curCharacter') ~= 'gf.curCharacter' then
-            setCameraPos('GF')
-        end
     end
-    
 end
 
 function setCameraPos(char)
     if char == 'all' or char == '' or char == nil then
-        
         if split(getProperty('dad.curCharacter')) ~= 'gf' then
             xx = getMidpointX('dad') + 150 + charOfs.dad[1] - stageOfs.dad[1]
             yy = getMidpointY('dad') - 100 + charOfs.dad[2] + stageOfs.dad[2]
@@ -129,9 +101,6 @@ function setCameraPos(char)
 
         xx2 = getMidpointX('boyfriend') - 100 - charOfs.bf[1] + stageOfs.bf[1]
         yy2 = getMidpointY('boyfriend') - 100 + charOfs.bf[2] + stageOfs.bf[2]
-
-        xx3 = getMidpointX('gf') + charOfs.gf[1] + stageOfs.gf[1]
-        yy3 = getMidpointY('gf') + charOfs.gf[2] + stageOfs.gf[2]
     end
 
     if char == 'bf' or char == 'BF' or char == '0' then
@@ -144,17 +113,6 @@ function setCameraPos(char)
         yy = getMidpointY('dad') - 100 + charOfs.dad[2] + stageOfs.dad[2]
     end
 
-    if char == 'gf' or char == 'GF' or char == '2' then
-        if getProperty('gf.curCharacter') ~= 'gf.curCharacter' then
-            xx3 = getMidpointX('gf')
-            yy3 = getMidpointY('gf')
-            xx3 = xx3 + charOfs.gf[1] - stageOfs.gf[1]
-            yy3 = yy3 + charOfs.gf[2] + stageOfs.gf[2]
-        end
-    end
-
-    
-    
     if locked == false then
         if camFollowEventTriggered == false then
             followchars = true
@@ -164,7 +122,6 @@ function setCameraPos(char)
     if not lowQuality then
         callOnLuas('onCameraPosSet')
     end
-    
 end
 
 function onScriptAdd()
@@ -175,7 +132,6 @@ function onStartCountdown()
     if getProperty('skipCountdown') == false then
         getCameraPos('all')
     end
-
     return Function_Continue
 end
 
@@ -199,9 +155,7 @@ end
 
 function onEvent(n, v1, v2)
     if n == 'Change Character' then
-        if v1 == 'GF' or v1 == '2' then
-            getCameraPos('GF')
-        elseif v1 == 'BF' or v1 == '0' or v1 == 'bf' then
+        if v1 == 'BF' or v1 == '0' or v1 == 'bf' then
             getCameraPos('BF')
         elseif v1 == 'Dad' or v1 == '1' or v1 == 'dad' then
             getCameraPos('Dad')
@@ -209,9 +163,7 @@ function onEvent(n, v1, v2)
     end
     
     if n == 'Set Property' then
-        if v1 == 'gf.x' or v1 == 'gf.y' then
-            getCameraPos('GF')
-        elseif v1 == 'boyfriend.x' or v1 == 'boyfriend.y' then
+        if v1 == 'boyfriend.x' or v1 == 'boyfriend.y' then
             getCameraPos('BF')
         elseif v1 == 'dad.x' or v1 == 'dad.y' then
             getCameraPos('Dad')
@@ -243,14 +195,6 @@ function onEvent(n, v1, v2)
             xx2 = xx2 + v2
         elseif v1 == 'yy2+' then
             yy2 = yy2 + v2
-        elseif v1 == 'xx3' then
-            xx3 = v2
-        elseif v1 == 'yy3' then
-            yy3 = v2
-        elseif v1 == 'xx3+' then
-            xx3 = xx3 + v2
-        elseif v1 == 'yy3+' then
-            yy3 = yy3 + v2
         end
     end
 end
@@ -278,9 +222,7 @@ end
 --Modified version of Washo789's follow script.
 --at least, I think it belongs to Washo789 (￣▽￣)"
 function onUpdate(elasped)
-    
     local curBFAnim = getProperty('boyfriend.animation.curAnim.name')
-	local curGFAnim = getProperty('gf.animation.curAnim.name')
 	local curDadAnim = getProperty('dad.animation.curAnim.name')
     
     if followchars == true then
@@ -330,29 +272,6 @@ function onUpdate(elasped)
             else
                 setProperty('camFollow.x', xx2)
                 setProperty('camFollow.y', yy2)
-            end
-        end
-
-        if gfSection == true then
-    
-            if curGFAnim == 'singLEFT' or curGFAnim == 'singLEFT-alt' then
-                setProperty('camFollow.x', xx3 - ofsX)
-                setProperty('camFollow.y', yy3)
-            
-            elseif curGFAnim == 'singDOWN' or curGFAnim == 'singDOWN-alt' then
-                setProperty('camFollow.x', xx3)
-                setProperty('camFollow.y', yy3 + ofsY)
-            
-            elseif curGFAnim == 'singUP' or curGFAnim == 'singUP-alt' then
-                setProperty('camFollow.x', xx3)
-                setProperty('camFollow.y', yy3 - ofsY)
-            
-            elseif curGFAnim == 'singRIGHT' or curGFAnim == 'singRIGHT-alt' then
-                setProperty('camFollow.x', xx3 + ofsX)
-                setProperty('camFollow.y', yy3)
-            else
-                setProperty('camFollow.x', xx3)
-                setProperty('camFollow.y', yy3)
             end
         end
     end

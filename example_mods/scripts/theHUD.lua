@@ -148,12 +148,12 @@ end
 
 function onCreate()
     --Song Credits Text Assets
-	makeLuaSprite('JukeBoxTag', 'empty', -305-IntroTagWidth, 15)
+	makeLuaSprite('JukeBoxTag', '', -305-IntroTagWidth, 15)
 	makeGraphic('JukeBoxTag', 300+IntroTagWidth, 100, IntroTagColor)
 	setObjectCamera('JukeBoxTag', 'other')
 	addLuaSprite('JukeBoxTag', true)
 
-	makeLuaSprite('JukeBox', 'empty', -305-IntroTagWidth, 15)
+	makeLuaSprite('JukeBox', '', -305-IntroTagWidth, 15)
 	makeGraphic('JukeBox', 300, 100, '000000')
 	setObjectCamera('JukeBox', 'other')
 	addLuaSprite('JukeBox', true)
@@ -176,7 +176,7 @@ function onCreatePost()
     --This creates all the placeholder shit B) ((THIS PART ON THE ORIGINAL SCRIPT WAS MADE BY PIGGY))
     luaDebugMode = true
 
-    makeLuaSprite('creditBox', 'empty', 0 - objWidth, offsetY)
+    makeLuaSprite('creditBox', '', 0 - objWidth, offsetY)
     makeGraphic('creditBox', objWidth, 150, '000000')
     setObjectCamera('creditBox', 'other')
     setProperty("creditBox.alpha", 0.7)

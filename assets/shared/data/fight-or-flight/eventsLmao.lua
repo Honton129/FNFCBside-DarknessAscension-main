@@ -1,11 +1,11 @@
 function onCreate()
-   makeLuaSprite('overlayFun', 'stageoverlaycorrupt', 0, 0);
+   makeLuaSprite('overlayFun', 'stageoverlaycorrupt');
    setObjectCamera('overlayFun', 'camHUD');
    addLuaSprite('overlayFun', false);
 
-   setProperty('camGame.alpha', 0);
-   setProperty('camHUD.alpha', 0);
-   setProperty('camOther.alpha', 0);
+   setProperty('camGame.alpha', 0.0001);
+   setProperty('camHUD.alpha', 0.0001);
+   setProperty('camOther.alpha', 0.0001);
 end
 
 function onBeatHit()

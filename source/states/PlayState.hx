@@ -347,6 +347,12 @@ class PlayState extends MusicBeatState
 			case 'spooky-2': new states.stages.SpookyD2(); //Spooky Stage (Day 2)
 			case 'spooky-3': new states.stages.SpookyD3(); //Spooky Stage (Day 3)
 
+			//SENPAI
+
+			case 'highway': new states.stages.Highway(); //Mom Stage (Day 1)
+			case 'highway-2': new states.stages.Highway(); //Mom Stage (Day 2)
+			case 'highway-3': new states.stages.Highway(); //Mom Stage (Day 3)
+
 			case 'stage': new states.stages.StageWeek1(); //Default Stage
 		}
 

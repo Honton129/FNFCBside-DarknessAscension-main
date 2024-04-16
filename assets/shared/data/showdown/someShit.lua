@@ -3,7 +3,6 @@ function onStartCountdown()
    setProperty('iconP1.alpha', 0);
    setProperty('iconP2.alpha', 0);
    setProperty('scoreTxt.alpha', 0);
-   --setProperty('camGame.alpha', 0.00001);
    setProperty('pogaCorrupted.alpha', 0.00001);
    setProperty('skidLmao.alpha', 0.00001);
    setProperty('yupodElao.alpha', 0.00001);
@@ -17,11 +16,11 @@ function onStartCountdown()
 end
 
 function onCreate()
-    makeLuaSprite('blur', 'deadblur', -500,-300)
+    makeLuaSprite('blur', 'deadblur', -500, -300)
     scaleObject('blur', 2, 2)
-    addLuaSprite('blur',true)
-    setLuaSpriteScrollFactor('blur', 0, 0)
-    setProperty('blur.alpha', 0)
+    addLuaSprite('blur', true)
+    setScrollFactor('blur', 0, 0)
+    setProperty('blur.alpha', 0.00001)
 end
 
 function onUpdate()
@@ -35,21 +34,20 @@ function onUpdate()
 end
 
 function onBeatHit()
-   if curBeat == 64 then
-         setProperty('pogaCorrupted.alpha', 1);
-         setProperty('skidLmao.alpha', 1);
-         setProperty('yupodElao.alpha', 1);
-         setProperty('mathxMiedoPng.alpha', 1);
-         setProperty('phillyStreet.alpha', 1);
-         setProperty('city.alpha', 1);
-         setProperty('bg.alpha', 1);
-	 doTweenColor('badapplexd3', 'boyfriend', 'FFFFFF', 0.00001, 'linear')
-	 doTweenColor('badapplexd4', 'dad', 'FFFFFF', 0.00001, 'linear')
-	 doTweenColor('badapplexd5', 'gf', 'FFFFFF', 0.00001, 'linear')
-   end
+    if curBeat == 64 then
+        setProperty('pogaCorrupted.alpha', 1);
+        setProperty('skidLmao.alpha', 1);
+        setProperty('yupodElao.alpha', 1);
+        setProperty('mathxMiedoPng.alpha', 1);
+        setProperty('phillyStreet.alpha', 1);
+        setProperty('city.alpha', 1);
+        setProperty('bg.alpha', 1);
+        doTweenColor('badapplexd3', 'boyfriend', 'FFFFFF', 0.00001, 'linear')
+        doTweenColor('badapplexd4', 'dad', 'FFFFFF', 0.00001, 'linear')
+        doTweenColor('badapplexd5', 'gf', 'FFFFFF', 0.00001, 'linear')
+    end
 
     if curBeat == 480 then
-        --setProperty('camHUD.visible', false)
         setProperty('camGame.visible', false)
     end 
 end
