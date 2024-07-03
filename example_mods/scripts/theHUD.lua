@@ -58,15 +58,15 @@ local songdata = {
 
     ['Chiller'] = {
         'Chiller',
-        'Strike, Benkamyn & FurretGiovana',
+        'Zhadnii, Benkamyn & FurretGiovana',
         '4',
         'Check The Credits!',
-        'Strike',
+        'Zhadnii',
     },
 
     ['Matricidal'] = {
         'Matricidal',
-        'FurretGiovana',
+        'Zhadnii, Benkamyn & FurretGiovana',
         '4',
         'Check The Credits!',
         'SMG2',
@@ -74,7 +74,7 @@ local songdata = {
 
     ['Bullet-Past'] = {
         'Bullet Past',
-        'Strike',
+        'Zhadnii',
         '4',
         'Check The Credits!',
         'SMG2',
@@ -90,10 +90,10 @@ local songdata = {
 
     ['fading-to-black'] = {
         'Fading To Black',
-        'Strike',
+        'Zhadnii',
         '4',
         'Check The Credits!',
-        'Strike',
+        'Zhadnii',
     },
 
     ['chiller-remix'] = {
